@@ -2,11 +2,12 @@ import 'dart:convert';
 import 'package:get/get.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:vinsartisanmarket/Auth/Auth.dart';
+
 import 'package:vinsartisanmarket/Models/AuthUser.dart';
 
-import 'package:vinsartisanmarket/pages/Layout.dart';
+import 'package:vinsartisanmarket/pages/layout.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:vinsartisanmarket/service/authentication/auth.dart';
 import 'package:vinsartisanmarket/service/http_handeler/httpClient.dart';
 
 bool isLoggedIn = false;
