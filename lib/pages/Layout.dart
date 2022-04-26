@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:vinsartisanmarket/Auth/Auth.dart';
+
 import 'package:vinsartisanmarket/Models/AuthUser.dart';
 import 'package:get/get.dart';
+import 'package:vinsartisanmarket/service/authentication/auth.dart';
+
 class Layout extends StatelessWidget {
   const Layout({Key? key}) : super(key: key);
 
@@ -17,7 +19,7 @@ class Layout extends StatelessWidget {
             onPressed: () async {
               SharedPreferences prefs = await SharedPreferences.getInstance();
               await prefs.clear();
-              Get.offAll(()=>const Auth());
+              Get.offAll(() => const Auth());
             },
           ),
         ],

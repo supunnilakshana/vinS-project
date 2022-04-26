@@ -5,9 +5,9 @@ import 'package:vinsartisanmarket/Models/AuthUser.dart';
 
 import 'package:vinsartisanmarket/Styles/ButtonStyles.dart';
 import 'package:vinsartisanmarket/Styles/TextStyles.dart';
-import 'package:vinsartisanmarket/pages/Layout.dart';
-import 'package:vinsartisanmarket/components/PrimaryLoadingIndicator.dart';
-import 'package:vinsartisanmarket/components/SnackBar.dart';
+import 'package:vinsartisanmarket/pages/layout.dart';
+import 'package:vinsartisanmarket/components/primaryLoadingIndicator.dart';
+import 'package:vinsartisanmarket/components/snackBar.dart';
 import 'package:vinsartisanmarket/service/http_handeler/httpClient.dart';
 
 class Auth extends StatelessWidget {
