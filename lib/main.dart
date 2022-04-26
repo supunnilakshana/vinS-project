@@ -4,22 +4,23 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:vinsartisanmarket/Auth/Auth.dart';
 import 'package:vinsartisanmarket/Models/AuthUser.dart';
-import 'package:vinsartisanmarket/Models/HttpClient.dart';
-import 'package:vinsartisanmarket/Views/Layout.dart';
+
+import 'package:vinsartisanmarket/pages/Layout.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:vinsartisanmarket/service/http_handeler/httpClient.dart';
 
 bool isLoggedIn = false;
 
-void main() async{
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await checkAuth();
   runApp(const VAM());
 }
 
-Future checkAuth() async{
+Future checkAuth() async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   String token = prefs.getString('token') ?? '';
-  Map<String,dynamic> user = jsonDecode(prefs.getString('user') ?? '{}');
+  Map<String, dynamic> user = jsonDecode(prefs.getString('user') ?? '{}');
 
   if (token.isEmpty) {
     isLoggedIn = false;

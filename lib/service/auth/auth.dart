@@ -2,12 +2,14 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:vinsartisanmarket/Models/AuthUser.dart';
-import 'package:vinsartisanmarket/Models/HttpClient.dart';
-import 'package:vinsartisanmarket/SharedWidgets/PrimaryLoadingIndicator.dart';
-import 'package:vinsartisanmarket/SharedWidgets/SnackBar.dart';
+
 import 'package:vinsartisanmarket/Styles/ButtonStyles.dart';
 import 'package:vinsartisanmarket/Styles/TextStyles.dart';
-import 'package:vinsartisanmarket/Views/Layout.dart';
+import 'package:vinsartisanmarket/pages/Layout.dart';
+import 'package:vinsartisanmarket/components/PrimaryLoadingIndicator.dart';
+import 'package:vinsartisanmarket/components/SnackBar.dart';
+import 'package:vinsartisanmarket/service/http_handeler/httpClient.dart';
+
 class Auth extends StatelessWidget {
   const Auth({Key? key}) : super(key: key);
 
@@ -17,7 +19,7 @@ class Auth extends StatelessWidget {
     TextEditingController _emailController = TextEditingController();
     TextEditingController _passwordController = TextEditingController();
 
-    void signIn() async{
+    void signIn() async {
       loading.value = true;
       Map res = await httpClient.signIn({
         'email': _emailController.text,
@@ -28,17 +30,14 @@ class Auth extends StatelessWidget {
         print(res);
       }
 
-      if (res['code'] == 200){
+      if (res['code'] == 200) {
         httpClient.setToken(res['data']['token']);
         authUser.saveUser(res['data']['user']);
-        Get.offAll(()=>const Layout());
+        Get.offAll(() => const Layout());
       } else {
         showSnackBar('Oops!', 'Email/Password is incorrect. Please try again.');
         loading.value = false;
       }
-
-
-
     }
 
     return Scaffold(
@@ -49,7 +48,8 @@ class Auth extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text('VinS', style: TextStyles.title(64, Colors.indigo)),
-              Text('Artisan Market', style: TextStyles.title(21, Colors.indigo)),
+              Text('Artisan Market',
+                  style: TextStyles.title(21, Colors.indigo)),
               const SizedBox(height: 32),
               TextField(
                 controller: _emailController,
@@ -76,7 +76,9 @@ class Auth extends StatelessWidget {
                       onPressed: () {
                         signIn();
                       },
-                      child: Obx(()=> loading.value ? primaryLoadingIndicator() : const Text('Sign In')),
+                      child: Obx(() => loading.value
+                          ? primaryLoadingIndicator()
+                          : const Text('Sign In')),
                     ),
                   ),
                   SizedBox(
@@ -84,9 +86,9 @@ class Auth extends StatelessWidget {
                     height: 48,
                     child: TextButton(
                         style: ButtonStyles.primaryButton(),
-                        onPressed: (){}, child: const Text('Forgot Password?')),
+                        onPressed: () {},
+                        child: const Text('Forgot Password?')),
                   ),
-
                 ],
               )
             ],
