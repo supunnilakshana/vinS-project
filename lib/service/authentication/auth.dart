@@ -5,7 +5,7 @@ import 'package:vinsartisanmarket/Models/AuthUser.dart';
 
 import 'package:vinsartisanmarket/Styles/ButtonStyles.dart';
 import 'package:vinsartisanmarket/Styles/TextStyles.dart';
-import 'package:vinsartisanmarket/pages/layout.dart';
+import 'package:vinsartisanmarket/screens/layout.dart';
 import 'package:vinsartisanmarket/components/primaryLoadingIndicator.dart';
 import 'package:vinsartisanmarket/components/snackBar.dart';
 import 'package:vinsartisanmarket/service/http_handeler/httpClient.dart';

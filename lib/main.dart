@@ -5,8 +5,9 @@ import 'package:flutter/material.dart';
 
 import 'package:vinsartisanmarket/Models/AuthUser.dart';
 
-import 'package:vinsartisanmarket/pages/layout.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:vinsartisanmarket/screens/home/home_screen.dart';
+import 'package:vinsartisanmarket/screens/layout.dart';
 import 'package:vinsartisanmarket/service/authentication/auth.dart';
 import 'package:vinsartisanmarket/service/http_handeler/httpClient.dart';
 
@@ -58,7 +59,8 @@ class VAM extends StatelessWidget {
           ),
         ),
       ),
-      home: isLoggedIn ? const Layout() : const Auth(),
+      home: HomeScreen(),
+      // home: isLoggedIn ? const Layout() : const Auth(),
     );
   }
 }
