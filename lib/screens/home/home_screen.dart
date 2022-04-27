@@ -5,9 +5,10 @@ import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:vinsartisanmarket/constansts/ui_constansts.dart';
 import 'package:vinsartisanmarket/screens/home/account_tab/account_screen.dart';
-import 'package:vinsartisanmarket/screens/home/cart_tab/cart_screen.dart';
+import 'package:vinsartisanmarket/screens/home/cart_tab/cartscreen.dart';
+
 import 'package:vinsartisanmarket/screens/home/notification_tab/notification_screen.dart';
-import 'package:vinsartisanmarket/screens/home/store_tab/store_screen.dart';
+import 'package:vinsartisanmarket/screens/home/store_tab/storescreen.dart';
 import 'package:vinsartisanmarket/test/testscreen.dart';
 
 class HomeScreen extends StatefulWidget {
