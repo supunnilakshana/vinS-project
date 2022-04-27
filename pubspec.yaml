@@ -39,8 +39,6 @@ dev_dependencies:
   flutter_svg: ^0.22.0
   image_picker: ^0.8.3+3
   double_back_to_close: ^2.0.0
-  firebase_core: ^1.4.0
-  firebase_messaging: ^10.0.4
   flutter_local_notifications: ^6.0.0
   awesome_dialog: ^2.1.0
   fab_circular_menu: ^1.0.2

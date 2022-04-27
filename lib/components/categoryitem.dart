@@ -14,6 +14,7 @@ class CategoryItem extends StatelessWidget {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Container(
+      width: size.width * 0.19,
       child: Column(children: [
         Padding(
           padding: EdgeInsets.only(bottom: size.height * 0.008),
@@ -21,14 +22,18 @@ class CategoryItem extends StatelessWidget {
             borderRadius: BorderRadius.circular(8.0),
             child: Image.asset(
               imgsrc,
-              width: size.width * 0.155,
-              height: size.width * 0.155,
+              width: size.width * 0.13,
+              height: size.width * 0.13,
             ),
           ),
         ),
         Text(
           label,
-          style: TextStyle(fontWeight: FontWeight.bold, color: Colors.black),
+          textAlign: TextAlign.center,
+          style: TextStyle(
+              fontWeight: FontWeight.bold,
+              color: Colors.black.withOpacity(0.75),
+              fontSize: size.width * 0.028),
         )
       ]),
     );

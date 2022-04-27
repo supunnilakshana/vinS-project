@@ -122,7 +122,7 @@ class _SignupState extends State<Signup> {
                           controller: emailcontroller,
                           icon: Icons.mail,
                           valid: (text) {
-                            return Validater.optionalemailvalid(text!);
+                            return Validater.vaildemail(email);
                           },
                         ),
                       ),
