@@ -75,7 +75,7 @@ class _SigninState extends State<Signin> {
                           controller: usernamecontroller,
                           icon: Icons.email_outlined,
                           valid: (text) {
-                            return Validater.optionalemailvalid(email);
+                            return Validater.vaildemail(email);
                           },
                         ),
                       ),
