@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:vinsartisanmarket/components/errorpage.dart';
 import 'package:vinsartisanmarket/screens/home/store_tab/compt/singelitem.dart';
+import 'package:vinsartisanmarket/screens/home/store_tab/compt/singellitemfull.dart';
 
 import 'package:vinsartisanmarket/test/testdata_handeler.dart';
 import 'package:vinsartisanmarket/test/testmodel.dart';
@@ -65,31 +66,54 @@ class _ItemgridState extends State<Itemgrid> {
                       return Container(
                           child: GestureDetector(
                               onTap: () {
-                                // final List<Widget> imglist = [
-                                //   YTplayer(link: data[index].vlink1),
-                                //   CachedNetworkImage(
-                                //     imageUrl: fiximagelink + data[index].image,
-                                //     progressIndicatorBuilder:
-                                //         (context, url, downloadProgress) =>
-                                //             Container(
-                                //       //  height: size.height * 0.01,
-                                //       child: Center(
-                                //         child: CircularProgressIndicator(
-                                //             color: Colors.blueGrey,
-                                //             value: downloadProgress.progress),
-                                //       ),
-                                //     ),
-                                //     errorWidget: (context, url, error) =>
-                                //         Icon(Icons.error),
-                                //   )
-                                // ];
-                                // Navigator.push(
-                                //     context,
-                                //     MaterialPageRoute(
-                                //         builder: (context) => Singelitemfull(
-                                //               imglist: imglist,
-                                //               product: data[index],
-                                //             )));
+                                final List<Widget> imglist = [
+                                  CachedNetworkImage(
+                                    imageUrl:
+                                        "https://www.ubuy.com.kh/productimg/?image=aHR0cHM6Ly9tLm1lZGlhLWFtYXpvbi5jb20vaW1hZ2VzL0kvNjErNHpTWERld0wuX0FDX1VMMTAyMF8uanBn.jpg",
+                                    progressIndicatorBuilder:
+                                        (context, url, downloadProgress) =>
+                                            Container(
+                                      //  height: size.height * 0.01,
+                                      child: Center(
+                                        child: CircularProgressIndicator(
+                                            color: Colors.blueGrey,
+                                            value: downloadProgress.progress),
+                                      ),
+                                    ),
+                                    errorWidget: (context, url, error) =>
+                                        Icon(Icons.error),
+                                  ),
+                                  CachedNetworkImage(
+                                    imageUrl:
+                                        "https://www.casio.com/content/dam/casio/product-info/locales/intl/en/timepiece/product/watch/G/GA/GA7/GA-700-1B/assets/GA-700-1B_Seq2.jpg.transform/main-visual-sp/image.jpg",
+                                    progressIndicatorBuilder:
+                                        (context, url, downloadProgress) =>
+                                            Container(
+                                      //  height: size.height * 0.01,
+                                      child: Center(
+                                        child: CircularProgressIndicator(
+                                            color: Colors.blueGrey,
+                                            value: downloadProgress.progress),
+                                      ),
+                                    ),
+                                    errorWidget: (context, url, error) =>
+                                        Icon(Icons.error),
+                                  )
+                                ];
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => Singelitemfull(
+                                              imglist: imglist,
+                                              pid: 'A-456',
+                                              description:
+                                                  'The Casio GA110GB-1A G-Shock Gents Watch is a giant in watch proportions. Living up to the G-Shock name with the X-Large G, the black piece with a two-toned gold dial, features an analogue and digital display with shock and magnetic resistance, an auto LED light with afterglow, world time, 4 daily alarms, 1 snooze, an hourly time signal, stopwatch, countdown timer, full auto calendar and 12/24 hour formats. The watch is made for every day of the year.',
+                                              discount: 50,
+                                              preprice: 200,
+                                              price: 150,
+                                              productname: "Men's Watch",
+                                              status: status,
+                                            )));
                               },
                               child: SingleItem(
                                 titel: "Men's Watch",

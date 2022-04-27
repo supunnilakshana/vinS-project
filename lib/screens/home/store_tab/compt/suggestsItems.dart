@@ -7,20 +7,18 @@ import 'package:vinsartisanmarket/test/testdata_handeler.dart';
 import 'package:vinsartisanmarket/test/testmodel.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 
-class Sresultview extends StatefulWidget {
-  final String searchval;
-  const Sresultview({
+class SuggestItemView extends StatefulWidget {
+  const SuggestItemView({
     Key? key,
-    required this.searchval,
   }) : super(key: key);
 
   @override
-  _SresultviewState createState() {
-    return _SresultviewState();
+  _SuggestItemViewState createState() {
+    return _SuggestItemViewState();
   }
 }
 
-class _SresultviewState extends State<Sresultview> {
+class _SuggestItemViewState extends State<SuggestItemView> {
   late Future<List<TestModel>> futureData;
 
   @override
@@ -138,7 +136,7 @@ class _SresultviewState extends State<Sresultview> {
             }
             // By default show a loading spinner.
             return Center(
-                child: Lottie.asset("assets/animation/searching.json",
+                child: Lottie.asset("assets/animation/loadingindicator.json",
                     width: size.width * 0.4));
           },
         ),

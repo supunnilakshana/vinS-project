@@ -63,7 +63,7 @@ class VAM extends StatelessWidget {
           ),
         ),
       ),
-      home: WelcomeScreen(),
+      home: const WelcomeScreen(),
       // home: isLoggedIn ? const Layout() : const Auth(),
     );
   }

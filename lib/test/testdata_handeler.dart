@@ -16,4 +16,17 @@ class TestDataHandeler {
       throw Exception('Failed to load album');
     }
   }
+
+  static Future<TestModel> fetchTestModelsingel() async {
+    final response =
+        await http.get(Uri.parse('https://jsonplaceholder.typicode.com/posts'));
+
+    if (response.statusCode == 200) {
+      final parsed = json.decode(response.body).cast<Map<String, dynamic>>();
+
+      return TestModel(userId: 1, id: 2, title: "title", body: "body");
+    } else {
+      throw Exception('Failed to load album');
+    }
+  }
 }
