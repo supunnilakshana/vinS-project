@@ -4,7 +4,7 @@ import 'package:http/http.dart' as http;
 import 'package:vinsartisanmarket/test/testmodel.dart';
 
 class TestDataHandeler {
-  Future<List<TestModel>> fetchTestModel() async {
+  static Future<List<TestModel>> fetchTestModel() async {
     final response =
         await http.get(Uri.parse('https://jsonplaceholder.typicode.com/posts'));
 

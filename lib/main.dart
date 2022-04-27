@@ -2,12 +2,13 @@ import 'dart:convert';
 import 'package:get/get.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-
+import 'package:google_fonts/google_fonts.dart';
 import 'package:vinsartisanmarket/Models/AuthUser.dart';
 
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vinsartisanmarket/screens/home/home_screen.dart';
 import 'package:vinsartisanmarket/screens/layout.dart';
+import 'package:vinsartisanmarket/screens/welcome_screen/welcome_screen.dart';
 import 'package:vinsartisanmarket/service/authentication/auth.dart';
 import 'package:vinsartisanmarket/service/http_handeler/httpClient.dart';
 
@@ -53,13 +54,16 @@ class VAM extends StatelessWidget {
       title: 'VinS Artisan Market',
       theme: ThemeData(
         primarySwatch: Colors.indigo,
+        textTheme: GoogleFonts.interTextTheme(
+          Theme.of(context).textTheme,
+        ),
         inputDecorationTheme: InputDecorationTheme(
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(8),
           ),
         ),
       ),
-      home: HomeScreen(),
+      home: WelcomeScreen(),
       // home: isLoggedIn ? const Layout() : const Auth(),
     );
   }

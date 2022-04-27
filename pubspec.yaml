@@ -22,7 +22,7 @@ dev_dependencies:
   shared_preferences: ^2.0.13
   google_nav_bar: ^5.0.5
   loading_indicator: ^3.0.3
-  google_fonts: ^2.1.0
+  google_fonts: ^2.2.0
   icon_badge: ^1.0.0
   youtube_player_flutter: ^8.0.0
   carousel_slider: ^4.0.0
