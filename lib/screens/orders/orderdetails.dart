@@ -27,6 +27,7 @@ class _OrderdetailsState extends State<Orderdetails> {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
+        backgroundColor: Colors.white,
         appBar: AppBar(
           title: Center(
             child: Text(
@@ -72,31 +73,38 @@ class _OrderdetailsState extends State<Orderdetails> {
         ),
         body: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
           Container(
-            decoration: BoxDecoration(color: Color(0XFFffffff)),
+            // decoration: BoxDecoration(color: Color(0XFFffffff)),
             height: size.height * 0.82,
             child: ListView(
               children: [
                 Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Container(
-                      width: size.width,
-                      child: DataTable(columns: [
-                        DataColumn(
-                            label: Text('',
-                                style: TextStyle(
-                                  fontSize: size.width * 0.04,
-                                  fontWeight: FontWeight.w700,
-                                  color: Colors.black.withOpacity(0.8),
-                                ))),
-                        DataColumn(
-                            label: Text('',
-                                style: TextStyle(
-                                  fontSize: size.width * 0.04,
-                                  fontWeight: FontWeight.w700,
-                                  color: Colors.black.withOpacity(0.8),
-                                ))),
-                      ], rows: datarow),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Card(
+                        color: klightbackgoundcolor,
+                        shadowColor: Colors.indigo,
+                        child: Container(
+                          width: size.width,
+                          child: DataTable(columns: [
+                            DataColumn(
+                                label: Text('Product',
+                                    style: TextStyle(
+                                      fontSize: size.width * 0.04,
+                                      fontWeight: FontWeight.w500,
+                                      color: Colors.black.withOpacity(0.7),
+                                    ))),
+                            DataColumn(
+                                label: Text('Total Price',
+                                    style: TextStyle(
+                                      fontSize: size.width * 0.04,
+                                      fontWeight: FontWeight.w500,
+                                      color: Colors.black.withOpacity(0.78),
+                                    ))),
+                          ], rows: datarow),
+                        ),
+                      ),
                     ),
                   ],
                 ),
