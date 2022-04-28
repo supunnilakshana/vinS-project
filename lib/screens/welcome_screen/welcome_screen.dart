@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:is_first_run/is_first_run.dart';
 import 'package:vinsartisanmarket/screens/auth/signin.dart';
 import 'package:vinsartisanmarket/screens/home/home_screen.dart';
+import 'package:vinsartisanmarket/screens/introduction/indroductionscreen.dart';
 
 class WelcomeScreen extends StatefulWidget {
   const WelcomeScreen({Key? key}) : super(key: key);
@@ -36,7 +37,9 @@ class StartState extends State<WelcomeScreen> {
 
   route() {
     Navigator.pushReplacement(
-        context, MaterialPageRoute(builder: (context) => const Signin()));
+        context,
+        MaterialPageRoute(
+            builder: (context) => const IntroDuctionPage(screen: Signin())));
   }
 
   initScreen(BuildContext context) {
