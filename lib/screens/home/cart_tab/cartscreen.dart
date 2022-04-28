@@ -5,6 +5,7 @@ import 'package:lottie/lottie.dart';
 import 'package:vinsartisanmarket/components/tots.dart';
 import 'package:vinsartisanmarket/constansts/ui_constansts.dart';
 import 'package:vinsartisanmarket/screens/home/cart_tab/compt/emtycart.dart';
+import 'package:vinsartisanmarket/screens/orders/orderdetails.dart';
 import 'package:vinsartisanmarket/test/testdata_handeler.dart';
 import 'package:vinsartisanmarket/test/testmodel.dart';
 import 'package:line_icons/line_icons.dart';
@@ -58,6 +59,13 @@ class _CartScreenState extends State<CartScreen> {
                       ],
                     ),
                   ));
+
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => Orderdetails(
+                                total: total,
+                              )));
                 },
                 icon: const Icon(Icons.arrow_forward),
                 label: const Text("Check out all"),

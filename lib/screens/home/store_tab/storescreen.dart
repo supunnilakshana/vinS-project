@@ -178,7 +178,7 @@ class _StoreScreenState extends State<StoreScreen> {
                   MaterialPageRoute(
                       builder: (context) => CategoryResult(
                             categoryName: "Sketch Tools",
-                            categoryimg: "assets/icons/sketch.pngg",
+                            categoryimg: "assets/icons/sketch.png",
                           )));
             }, paint: () {
               Navigator.push(

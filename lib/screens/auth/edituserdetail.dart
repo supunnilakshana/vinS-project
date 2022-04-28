@@ -53,6 +53,12 @@ class _EditUserdetailsState extends State<EditUserdetails> {
     return GestureDetector(
       onTap: () => FocusScope.of(context).unfocus(),
       child: Scaffold(
+        backgroundColor: Colors.white,
+        appBar: AppBar(
+          iconTheme: const IconThemeData(color: Colors.black),
+          backgroundColor: Colors.white,
+          elevation: 0,
+        ),
         key: _scaffoldKey,
         body: SingleChildScrollView(
             keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
