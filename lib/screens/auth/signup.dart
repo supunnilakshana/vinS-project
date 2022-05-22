@@ -1,4 +1,8 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/get_rx/src/rx_types/rx_types.dart';
+import 'package:vinsartisanmarket/components/snackBar.dart';
 import 'package:vinsartisanmarket/constansts/ui_constansts.dart';
 
 import 'package:vinsartisanmarket/components/already_have_an_account_acheck.dart';
@@ -6,7 +10,11 @@ import 'package:vinsartisanmarket/components/buttons.dart';
 import 'package:vinsartisanmarket/components/internet_not_connect.dart';
 import 'package:vinsartisanmarket/components/textfileds.dart';
 import 'package:vinsartisanmarket/components/tots.dart';
+import 'package:vinsartisanmarket/models/authUser.dart';
+import 'package:vinsartisanmarket/models/regiUser.dart';
 import 'package:vinsartisanmarket/screens/auth/signin.dart';
+import 'package:vinsartisanmarket/screens/home/home_screen.dart';
+import 'package:vinsartisanmarket/service/http_handeler/httpClient.dart';
 
 import 'package:vinsartisanmarket/service/network/networkhandeler.dart';
 import 'package:vinsartisanmarket/service/validaters/validate_handeler.dart';
@@ -186,6 +194,7 @@ class _SignupState extends State<Signup> {
                                     ],
                                   ),
                                 ));
+                                signUpuser();
                                 print("valid");
                               } else {
                                 print("not complete");
@@ -212,7 +221,7 @@ class _SignupState extends State<Signup> {
                           context,
                           MaterialPageRoute(
                             builder: (context) {
-                              return Signin();
+                              return const Signin();
                             },
                           ),
                         );
@@ -225,5 +234,38 @@ class _SignupState extends State<Signup> {
             ))),
       ),
     );
+  }
+
+  RxBool loading = false.obs;
+
+  void signUpuser() async {
+    loading.value = true;
+    RegiUserModel userModel = RegiUserModel(
+        name: namecontroller.text,
+        email: emailcontroller.text,
+        password: password,
+        conpassword: password,
+        role: 'buyer');
+    Map res = await httpClient.signUp(userModel);
+
+    if (kDebugMode) {
+      print(res);
+    }
+    if (res['code'] == 200) {
+      if (kDebugMode) {
+        print("sucessfull");
+      }
+    }
+    if (res['code'] == 200) {
+      httpClient.setToken(res['data']['token']);
+      authUser.saveUser(res['data']['user']);
+      Get.offAll(() => const HomeScreen());
+    } else {
+      showSnackBar('Oops!', 'Account already exist. Please try again.');
+      status = true;
+      setState(() {});
+      loading.value = false;
+    }
+    loading.value = false;
   }
 }

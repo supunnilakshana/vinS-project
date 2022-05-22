@@ -3,11 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 
 import 'package:vinsartisanmarket/components/tots.dart';
+import 'package:vinsartisanmarket/constansts/initdata.dart';
 import 'package:vinsartisanmarket/constansts/ui_constansts.dart';
+import 'package:vinsartisanmarket/models/fetchCartModel.dart';
 import 'package:vinsartisanmarket/screens/home/cart_tab/compt/emtycart.dart';
 import 'package:vinsartisanmarket/screens/orders/orderdetails.dart';
+import 'package:vinsartisanmarket/service/http_handeler/httpClient.dart';
 import 'package:vinsartisanmarket/test/testdata_handeler.dart';
-import 'package:vinsartisanmarket/test/testmodel.dart';
+
 import 'package:line_icons/line_icons.dart';
 
 class CartScreen extends StatefulWidget {
@@ -20,7 +23,7 @@ class CartScreen extends StatefulWidget {
 }
 
 class _CartScreenState extends State<CartScreen> {
-  late Future<List<TestModel>> futureData;
+  late Future<List<FetchCartModel>> futureData;
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   double total = 9500;
@@ -28,7 +31,7 @@ class _CartScreenState extends State<CartScreen> {
   @override
   void initState() {
     super.initState();
-    futureData = TestDataHandeler.fetchTestModel();
+    futureData = httpClient.getCart();
   }
 
   @override
@@ -38,7 +41,7 @@ class _CartScreenState extends State<CartScreen> {
       future: futureData,
       builder: (context, snapshot) {
         if (snapshot.hasData) {
-          List<TestModel> data = snapshot.data as List<TestModel>;
+          List<FetchCartModel> data = snapshot.data as List<FetchCartModel>;
 
           if (data.isNotEmpty) {
             print(data);
@@ -93,7 +96,7 @@ class _CartScreenState extends State<CartScreen> {
                           child: ListView.builder(
                               itemCount: data.length,
                               itemBuilder: (context, indext) {
-                                int itemquantity = 2;
+                                int itemquantity = data[indext].qty;
                                 return Card(
                                   color: Colors.white,
                                   child: ListTile(
@@ -104,8 +107,8 @@ class _CartScreenState extends State<CartScreen> {
                                           child: Container(
                                         child: CachedNetworkImage(
                                           width: size.width * 0.175,
-                                          imageUrl:
-                                              "https://img.republicworld.com/republic-prod/stories/promolarge/xhdpi/yd9jqycqwwy1gcdf_1617362488.jpeg?tr=w-1200,h-900",
+                                          imageUrl: imgebaseUrl +
+                                              data[indext].product.image,
                                           progressIndicatorBuilder: (context,
                                                   url, downloadProgress) =>
                                               Container(
@@ -126,14 +129,19 @@ class _CartScreenState extends State<CartScreen> {
                                         // ),
                                       )),
                                       title: Text(
-                                        "I Phone 6s",
+                                        data[indext].product.name,
                                         style: TextStyle(
                                             color: Colors.black,
                                             fontWeight: FontWeight.bold,
                                             fontSize: size.width * 0.037),
                                       ),
                                       subtitle: Row(children: [
-                                        Text("450" + "\$",
+                                        Text(
+                                            data[indext]
+                                                    .product
+                                                    .price
+                                                    .toStringAsFixed(0) +
+                                                "\$",
                                             style: TextStyle(
                                                 color: Colors.black
                                                     .withOpacity(0.7))),
@@ -228,6 +236,8 @@ class _CartScreenState extends State<CartScreen> {
                                         children: [
                                           IconButton(
                                             onPressed: () async {
+                                              httpClient.removeCartItem(
+                                                  data[indext].id);
                                               Customtost.cartitemremove();
                                               reloaddata();
                                             },
@@ -261,7 +271,7 @@ class _CartScreenState extends State<CartScreen> {
 
   reloaddata() {
     setState(() {
-      futureData = futureData = TestDataHandeler.fetchTestModel();
+      futureData = futureData = httpClient.getCart();
     });
   }
 }

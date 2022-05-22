@@ -10,24 +10,27 @@ import 'package:vinsartisanmarket/test/testdata_handeler.dart';
 import 'package:vinsartisanmarket/test/testmodel.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 
-class SuggestItemView extends StatefulWidget {
+class CategoryGrid extends StatefulWidget {
+  final ScrollController scrollController;
   final List<Productmodel> productlist;
   final CategoryModel categoryModel;
-  const SuggestItemView({
+
+  const CategoryGrid({
     Key? key,
     required this.productlist,
     required this.categoryModel,
+    required this.scrollController,
   }) : super(key: key);
 
   @override
-  _SuggestItemViewState createState() {
-    return _SuggestItemViewState();
+  _CategoryGridState createState() {
+    return _CategoryGridState();
   }
 }
 
-class _SuggestItemViewState extends State<SuggestItemView> {
+class _CategoryGridState extends State<CategoryGrid> {
   late Future<List<TestModel>> futureData;
-  List<Productmodel> suggestlist = [];
+  List<Productmodel> filteredList = [];
   bool isload = false;
 
   @override
@@ -42,7 +45,7 @@ class _SuggestItemViewState extends State<SuggestItemView> {
   loaddata() async {
     widget.productlist.forEach((element) {
       if (element.category_id == widget.categoryModel.id) {
-        suggestlist.add(element);
+        filteredList.add(element);
       }
     });
     isload = true;
@@ -66,20 +69,20 @@ class _SuggestItemViewState extends State<SuggestItemView> {
             //               width: size.width * 0.54));
             //     } else {
             isload
-                ? suggestlist.isEmpty
+                ? filteredList.isEmpty
                     ? Center(
                         child: Lottie.asset("assets/animation/noresult.json",
                             width: size.width * 0.54))
                     : Container(
                         child: GridView.count(
                           physics: NeverScrollableScrollPhysics(),
-                          childAspectRatio: size.width / size.height,
-                          crossAxisCount: 3,
+                          childAspectRatio: size.width / size.height * 1.2,
+                          crossAxisCount: 2,
                           mainAxisSpacing: size.height * 0.01,
-                          crossAxisSpacing: size.width * 0.03,
+                          crossAxisSpacing: size.width * 0.05,
                           shrinkWrap: true,
                           children: List.generate(
-                            suggestlist.length,
+                            filteredList.length,
                             (index) {
                               bool status;
                               int quantity = 3;
@@ -94,7 +97,7 @@ class _SuggestItemViewState extends State<SuggestItemView> {
                                         final List<Widget> imglist = [
                                           CachedNetworkImage(
                                             imageUrl: imgebaseUrl +
-                                                suggestlist[index].image,
+                                                filteredList[index].image,
                                             progressIndicatorBuilder: (context,
                                                     url, downloadProgress) =>
                                                 Container(
@@ -113,7 +116,7 @@ class _SuggestItemViewState extends State<SuggestItemView> {
                                           ),
                                           CachedNetworkImage(
                                             imageUrl: imgebaseUrl +
-                                                suggestlist[index].image,
+                                                filteredList[index].image,
                                             progressIndicatorBuilder: (context,
                                                     url, downloadProgress) =>
                                                 Container(
@@ -137,31 +140,31 @@ class _SuggestItemViewState extends State<SuggestItemView> {
                                                 builder: (context) =>
                                                     Singelitemfull(
                                                       imglist: imglist,
-                                                      pid:
-                                                          suggestlist[index].id,
+                                                      pid: filteredList[index]
+                                                          .id,
                                                       description:
-                                                          suggestlist[index]
+                                                          filteredList[index]
                                                               .description,
-                                                      price: suggestlist[index]
+                                                      price: filteredList[index]
                                                           .price,
                                                       productname:
-                                                          suggestlist[index]
+                                                          filteredList[index]
                                                               .name,
                                                       status: status,
                                                       productList:
                                                           widget.productlist,
                                                       productmodel:
-                                                          suggestlist[index],
+                                                          filteredList[index],
                                                     )));
                                       },
                                       child: SingleItem(
-                                        titel: suggestlist[index].name,
+                                        titel: filteredList[index].name,
                                         discount: 0,
-                                        price: suggestlist[index].price,
-                                        pid: suggestlist[index].id,
+                                        price: filteredList[index].price,
+                                        pid: filteredList[index].id,
                                         imgname: imgebaseUrl +
-                                            suggestlist[index].image,
-                                        preprice: suggestlist[index].price,
+                                            filteredList[index].image,
+                                        preprice: filteredList[index].price,
                                         status: status,
                                       )));
                             },
@@ -193,18 +196,18 @@ class _SuggestItemViewState extends State<SuggestItemView> {
 ///
 ///
 
-// class SuggestItemView extends StatefulWidget {
-//   const SuggestItemView({
+// class CategoryGrid extends StatefulWidget {
+//   const CategoryGrid({
 //     Key? key,
 //   }) : super(key: key);
 
 //   @override
-//   _SuggestItemViewState createState() {
-//     return _SuggestItemViewState();
+//   _CategoryGridState createState() {
+//     return _CategoryGridState();
 //   }
 // }
 
-// class _SuggestItemViewState extends State<SuggestItemView> {
+// class _CategoryGridState extends State<CategoryGrid> {
 //   late Future<List<TestModel>> futureData;
 
 //   @override

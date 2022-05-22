@@ -7,8 +7,9 @@ import 'package:vinsartisanmarket/constansts/ui_constansts.dart';
 import 'package:vinsartisanmarket/screens/home/account_tab/account_screen.dart';
 import 'package:vinsartisanmarket/screens/home/cart_tab/cartscreen.dart';
 
-import 'package:vinsartisanmarket/screens/home/notification_tab/notification_screen.dart';
 import 'package:vinsartisanmarket/screens/home/store_tab/storescreen.dart';
+import 'package:vinsartisanmarket/screens/home/wishlist_tab/notification_screen.dart';
+import 'package:vinsartisanmarket/screens/home/wishlist_tab/wishListscreen.dart';
 import 'package:vinsartisanmarket/test/testscreen.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -31,7 +32,7 @@ class _HomeScreenState extends State<HomeScreen> {
       const AccountScreen(),
       const StoreScreen(),
       const CartScreen(),
-      NotificationScreen(),
+      WishListScreen(),
     ];
     return WillPopScope(
       onWillPop: () {
@@ -94,8 +95,8 @@ class _HomeScreenState extends State<HomeScreen> {
                     text: 'Cart',
                   ),
                   GButton(
-                    icon: LineIcons.bellAlt,
-                    text: 'Notification',
+                    icon: LineIcons.heart,
+                    text: 'WishList',
                   ),
                 ],
                 selectedIndex: _selectedIndex,

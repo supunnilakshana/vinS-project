@@ -2,8 +2,11 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:vinsartisanmarket/components/errorpage.dart';
+import 'package:vinsartisanmarket/constansts/initdata.dart';
+import 'package:vinsartisanmarket/models/productModel.dart';
 import 'package:vinsartisanmarket/screens/home/store_tab/compt/singelitem.dart';
 import 'package:vinsartisanmarket/screens/home/store_tab/compt/singellitemfull.dart';
+import 'package:vinsartisanmarket/service/http_handeler/httpClient.dart';
 
 import 'package:vinsartisanmarket/test/testdata_handeler.dart';
 import 'package:vinsartisanmarket/test/testmodel.dart';
@@ -22,12 +25,13 @@ class Itemgrid extends StatefulWidget {
 }
 
 class _ItemgridState extends State<Itemgrid> {
-  late Future<List<TestModel>> futureData;
+  late Future<List<Productmodel>> futureData;
+  HttpClient httpClient = HttpClient();
 
   @override
   void initState() {
     super.initState();
-    futureData = TestDataHandeler.fetchTestModel();
+    futureData = httpClient.getAllproducts();
   }
 
   @override
@@ -41,7 +45,7 @@ class _ItemgridState extends State<Itemgrid> {
           future: futureData,
           builder: (context, snapshot) {
             if (snapshot.hasData) {
-              List<TestModel> data = snapshot.data as List<TestModel>;
+              List<Productmodel> data = snapshot.data as List<Productmodel>;
               print(data);
 
               return Container(
@@ -58,7 +62,12 @@ class _ItemgridState extends State<Itemgrid> {
                       bool status;
 
                       int quantity = 10;
-                      if (quantity > 0) {
+                      // if (quantity > 0) {
+                      //   status = true;
+                      // } else {
+                      //   status = false;
+                      // }
+                      if (data[index].approved == 1) {
                         status = true;
                       } else {
                         status = false;
@@ -68,8 +77,7 @@ class _ItemgridState extends State<Itemgrid> {
                               onTap: () {
                                 final List<Widget> imglist = [
                                   CachedNetworkImage(
-                                    imageUrl:
-                                        "https://www.ubuy.com.kh/productimg/?image=aHR0cHM6Ly9tLm1lZGlhLWFtYXpvbi5jb20vaW1hZ2VzL0kvNjErNHpTWERld0wuX0FDX1VMMTAyMF8uanBn.jpg",
+                                    imageUrl: imgebaseUrl + data[index].image,
                                     progressIndicatorBuilder:
                                         (context, url, downloadProgress) =>
                                             Container(
@@ -84,8 +92,7 @@ class _ItemgridState extends State<Itemgrid> {
                                         Icon(Icons.error),
                                   ),
                                   CachedNetworkImage(
-                                    imageUrl:
-                                        "https://www.casio.com/content/dam/casio/product-info/locales/intl/en/timepiece/product/watch/G/GA/GA7/GA-700-1B/assets/GA-700-1B_Seq2.jpg.transform/main-visual-sp/image.jpg",
+                                    imageUrl: imgebaseUrl + data[index].image,
                                     progressIndicatorBuilder:
                                         (context, url, downloadProgress) =>
                                             Container(
@@ -105,24 +112,23 @@ class _ItemgridState extends State<Itemgrid> {
                                     MaterialPageRoute(
                                         builder: (context) => Singelitemfull(
                                               imglist: imglist,
-                                              pid: 'A-456',
+                                              pid: data[index].id,
                                               description:
-                                                  'The Casio GA110GB-1A G-Shock Gents Watch is a giant in watch proportions. Living up to the G-Shock name with the X-Large G, the black piece with a two-toned gold dial, features an analogue and digital display with shock and magnetic resistance, an auto LED light with afterglow, world time, 4 daily alarms, 1 snooze, an hourly time signal, stopwatch, countdown timer, full auto calendar and 12/24 hour formats. The watch is made for every day of the year.',
-                                              discount: 50,
-                                              preprice: 200,
-                                              price: 150,
-                                              productname: "Men's Watch",
+                                                  data[index].description,
+                                              price: data[index].price,
+                                              productname: data[index].name,
                                               status: status,
+                                              productList: data,
+                                              productmodel: data[index],
                                             )));
                               },
                               child: SingleItem(
-                                titel: "Men's Watch",
-                                discount: 50,
-                                price: 150,
-                                pid: "A-456",
-                                imgname:
-                                    "https://www.ubuy.com.kh/productimg/?image=aHR0cHM6Ly9tLm1lZGlhLWFtYXpvbi5jb20vaW1hZ2VzL0kvNjErNHpTWERld0wuX0FDX1VMMTAyMF8uanBn.jpg",
-                                preprice: 200,
+                                titel: data[index].name,
+                                discount: 0,
+                                price: data[index].price,
+                                pid: data[index].id,
+                                imgname: imgebaseUrl + data[index].image,
+                                preprice: data[index].price,
                                 status: status,
                               )));
                     },

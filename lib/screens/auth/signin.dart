@@ -1,4 +1,8 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get_rx/src/rx_types/rx_types.dart';
+import 'package:vinsartisanmarket/components/primaryLoadingIndicator.dart';
+import 'package:vinsartisanmarket/components/snackBar.dart';
 import 'package:vinsartisanmarket/constansts/ui_constansts.dart';
 
 import 'package:vinsartisanmarket/components/already_have_an_account_acheck.dart';
@@ -10,8 +14,13 @@ import 'package:vinsartisanmarket/components/or_divider.dart';
 import 'package:vinsartisanmarket/components/textfileds.dart';
 import 'package:vinsartisanmarket/components/tots.dart';
 import 'package:vinsartisanmarket/screens/home/home_screen.dart';
+import 'package:vinsartisanmarket/screens/layout.dart';
 import 'package:vinsartisanmarket/service/network/networkhandeler.dart';
 import 'package:vinsartisanmarket/service/validaters/validate_handeler.dart';
+
+import 'package:get/get.dart';
+import 'package:vinsartisanmarket/Models/AuthUser.dart';
+import 'package:vinsartisanmarket/service/http_handeler/httpClient.dart';
 
 import 'background.dart';
 import 'signup.dart';
@@ -27,6 +36,7 @@ class _SigninState extends State<Signin> {
   bool status = false;
   String email = "";
   String password = "";
+  RxBool loading = false.obs;
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   TextEditingController usernamecontroller = TextEditingController();
@@ -119,52 +129,57 @@ class _SigninState extends State<Signin> {
                     Padding(
                       padding: EdgeInsets.only(
                           bottom: size.height * 0.02, left: size.width * 0.079),
-                      child: Container(
-                        width: size.width * 0.65,
-                        child: Iconbutton(
-                          bicon: Icon(Icons.login),
-                          onpress: () async {
-                            bool isconnect = await NetworkHandeler.hasNetwork();
+                      child: Obx(() => loading.value
+                          ? primaryLoadingIndicator()
+                          : Container(
+                              width: size.width * 0.65,
+                              child: Iconbutton(
+                                bicon: Icon(Icons.login),
+                                onpress: () async {
+                                  bool isconnect =
+                                      await NetworkHandeler.hasNetwork();
 
-                            if (isconnect == true) {
-                              if (_formKey.currentState!.validate()) {
-                                _scaffoldKey.currentState!
-                                    // ignore: deprecated_member_use
-                                    .showSnackBar(new SnackBar(
-                                  duration: new Duration(seconds: 3),
-                                  backgroundColor: kprimaryColor,
-                                  content: new Row(
-                                    children: <Widget>[
-                                      new CircularProgressIndicator(),
-                                      new Text("Authenticating ...")
-                                    ],
-                                  ),
-                                ));
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) {
-                                      return const HomeScreen();
-                                    },
-                                  ),
-                                );
+                                  if (isconnect == true) {
+                                    if (_formKey.currentState!.validate()) {
+                                      _scaffoldKey.currentState!
+                                          // ignore: deprecated_member_use
+                                          .showSnackBar(new SnackBar(
+                                        duration: new Duration(seconds: 3),
+                                        backgroundColor: kprimaryColor,
+                                        content: new Row(
+                                          children: <Widget>[
+                                            new CircularProgressIndicator(),
+                                            new Text("Authenticating ...")
+                                          ],
+                                        ),
+                                      ));
+                                      signInuser();
+                                      // Navigator.push(
+                                      //   context,
+                                      //   MaterialPageRoute(
+                                      //     builder: (context) {
+                                      //       return const HomeScreen();
+                                      //     },
+                                      //   ),
+                                      // );
 
-                                print("valid");
-                              } else {
-                                print("not complete");
-                              }
-                            } else {
-                              Navigator.pushReplacement(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => NointernetScreen(
-                                          pushscreen: Signup())));
-                            }
-                          },
-                          color: kprimaryColor,
-                          text: "Sign In",
-                        ),
-                      ),
+                                      print("valid");
+                                    } else {
+                                      print("not complete");
+                                    }
+                                  } else {
+                                    Navigator.pushReplacement(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                NointernetScreen(
+                                                    pushscreen: Signup())));
+                                  }
+                                },
+                                color: kprimaryColor,
+                                text: "Sign In",
+                              ),
+                            )),
                     ),
                     AlreadyHaveAnAccountCheck(
                       press: () {
@@ -210,5 +225,25 @@ class _SigninState extends State<Signin> {
             ))),
       ),
     );
+  }
+
+  void signInuser() async {
+    loading.value = true;
+    Map res = await httpClient.signIn({'email': email, 'password': password});
+
+    if (kDebugMode) {
+      print(res);
+    }
+
+    if (res['code'] == 200) {
+      httpClient.setToken(res['data']['token']);
+      authUser.saveUser(res['data']['user']);
+      Get.offAll(() => const HomeScreen());
+    } else {
+      showSnackBar('Oops!', 'Email/Password is incorrect. Please try again.');
+      status = true;
+      setState(() {});
+      loading.value = false;
+    }
   }
 }

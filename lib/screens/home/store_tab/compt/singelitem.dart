@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
@@ -5,7 +6,10 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:vinsartisanmarket/components/buttons.dart';
 import 'package:vinsartisanmarket/components/internet_not_connect.dart';
 import 'package:vinsartisanmarket/components/tots.dart';
+import 'package:vinsartisanmarket/models/addcartModel.dart';
 import 'package:vinsartisanmarket/screens/home/home_screen.dart';
+import 'package:vinsartisanmarket/service/authentication/userHandeler.dart';
+import 'package:vinsartisanmarket/service/http_handeler/httpClient.dart';
 import 'package:vinsartisanmarket/service/network/networkhandeler.dart';
 
 class SingleItem extends StatefulWidget {
@@ -109,6 +113,14 @@ class _SingleItemState extends State<SingleItem> {
                     bool isconnect = await NetworkHandeler.hasNetwork();
 
                     if (isconnect == true) {
+                      final user = await UserHandeler.getUser();
+                      if (kDebugMode) {
+                        print(user.id);
+                      }
+                      await httpClient.addCart(CartModel(
+                          userid: user.id,
+                          productid: int.parse(widget.pid),
+                          qty: 1));
                       Customtost.cartadd();
                     } else {
                       Navigator.pushReplacement(

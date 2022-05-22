@@ -3,21 +3,22 @@ import 'package:lottie/lottie.dart';
 import 'package:vinsartisanmarket/constansts/ui_constansts.dart';
 import 'package:line_icons/line_icons.dart';
 
-class Emptycart extends StatelessWidget {
-  const Emptycart({Key? key}) : super(key: key);
+class EmptyWishList extends StatelessWidget {
+  const EmptyWishList({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
 
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
         automaticallyImplyLeading: false,
         backgroundColor: kprimaryColor,
         title: Center(
             child: Row(
           // ignore: prefer_const_literals_to_create_immutables
-          children: [const Icon(LineIcons.shoppingCart), const Text("Cart")],
+          children: [const Icon(LineIcons.heart), const Text("WishList")],
           mainAxisAlignment: MainAxisAlignment.center,
         )),
       ),
@@ -30,7 +31,7 @@ class Emptycart extends StatelessWidget {
               padding: EdgeInsets.only(
                   bottom: size.height * 0.02, left: size.width * 0.035),
               child: Text(
-                "Your cart is empty..",
+                "Your WishList is empty..",
                 style: TextStyle(
                     color: Colors.black.withOpacity(0.8),
                     fontSize: size.width * 0.05,
@@ -38,8 +39,8 @@ class Emptycart extends StatelessWidget {
               ),
             ),
             Container(
-              child: Lottie.asset("assets/animation/emptycart.json",
-                  width: size.width * 0.6),
+              child: Lottie.asset("assets/animation/wishListanimi.json",
+                  width: size.width * 0.5),
             )
           ],
         ),

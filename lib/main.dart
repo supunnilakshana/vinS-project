@@ -11,6 +11,7 @@ import 'package:vinsartisanmarket/screens/layout.dart';
 import 'package:vinsartisanmarket/screens/welcome_screen/welcome_screen.dart';
 import 'package:vinsartisanmarket/service/authentication/auth.dart';
 import 'package:vinsartisanmarket/service/http_handeler/httpClient.dart';
+import 'package:vinsartisanmarket/test/testscreen.dart';
 
 bool isLoggedIn = false;
 
@@ -63,7 +64,7 @@ class VAM extends StatelessWidget {
           ),
         ),
       ),
-      home: const WelcomeScreen(),
+      home: const WelcomeScreen(), // const Testscreen1()
       // home: isLoggedIn ? const Layout() : const Auth(),
     );
   }

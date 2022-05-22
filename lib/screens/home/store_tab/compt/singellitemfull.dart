@@ -1,9 +1,16 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:line_icons/line_icons.dart';
 import 'package:vinsartisanmarket/components/p_v_slider.dart';
 import 'package:vinsartisanmarket/components/tots.dart';
 import 'package:vinsartisanmarket/constansts/ui_constansts.dart';
+import 'package:vinsartisanmarket/models/addcartModel.dart';
+import 'package:vinsartisanmarket/models/addwishModel.dart';
+import 'package:vinsartisanmarket/models/productModel.dart';
 import 'package:vinsartisanmarket/screens/home/store_tab/compt/suggestsItems.dart';
 import 'package:vinsartisanmarket/screens/orders/orderdetails.dart';
+import 'package:vinsartisanmarket/service/authentication/userHandeler.dart';
+import 'package:vinsartisanmarket/service/http_handeler/httpClient.dart';
 import 'package:vinsartisanmarket/test/testdata_handeler.dart';
 
 class Singelitemfull extends StatefulWidget {
@@ -13,10 +20,10 @@ class Singelitemfull extends StatefulWidget {
     required this.pid,
     required this.productname,
     required this.price,
-    required this.preprice,
-    required this.discount,
     required this.status,
     required this.description,
+    required this.productmodel,
+    required this.productList,
   }) : super(key: key);
 
   final List<Widget> imglist;
@@ -24,9 +31,10 @@ class Singelitemfull extends StatefulWidget {
   final String productname;
   final String description;
   final double price;
-  final double preprice;
-  final double discount;
+
   final bool status;
+  final Productmodel productmodel;
+  final List<Productmodel> productList;
 
   @override
   _SingelitemfullState createState() => _SingelitemfullState();
@@ -35,31 +43,44 @@ class Singelitemfull extends StatefulWidget {
 class _SingelitemfullState extends State<Singelitemfull> {
   double total = 0.0;
   int itemquantity = 1;
-  late bool isdiscount;
+  bool isdiscount = false;
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    if (widget.discount > 0) {
-      isdiscount = true;
-    } else {
-      isdiscount = false;
-    }
+    // if (widget.discount > 0) {
+    //   isdiscount = true;
+    // } else {
+    //   isdiscount = false;
+    // }
     return Scaffold(
         backgroundColor: Colors.white,
         appBar: AppBar(
-          title: Text(
-            widget.productname,
-            style: TextStyle(
-                color: kprimaryColor,
-                fontWeight: FontWeight.bold,
-                fontSize: size.width * 0.06),
-          ),
+          actions: [
+            GestureDetector(
+                onTap: () async {
+                  final user = await UserHandeler.getUser();
+                  final res = await httpClient.addWishList(WishListModel(
+                      userid: user.id, productid: int.parse(widget.pid)));
+                  if (res["data"] == "success") {
+                    Customtost.commontost(
+                        "Succesfully addded", Colors.greenAccent);
+                  } else {
+                    Customtost.commontost("Already addded", Colors.amberAccent);
+                  }
+                },
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Icon(
+                    LineIcons.heart,
+                    size: size.width * 0.08,
+                  ),
+                )),
+          ],
           elevation: 0,
           backgroundColor: Colors.white,
           iconTheme: IconThemeData(
             color: Colors.black, //change your color here
           ),
-          centerTitle: true,
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
         floatingActionButton: Wrap(
@@ -91,6 +112,14 @@ class _SingelitemfullState extends State<Singelitemfull> {
                     heroTag: "btn2",
                     backgroundColor: Colors.indigo,
                     onPressed: () async {
+                      final user = await UserHandeler.getUser();
+                      if (kDebugMode) {
+                        print(user.id);
+                      }
+                      await httpClient.addCart(CartModel(
+                          userid: user.id,
+                          productid: int.parse(widget.pid),
+                          qty: itemquantity));
                       Customtost.cartadd();
                     },
                     label: const Text("Add to cart"))),
@@ -103,8 +132,19 @@ class _SingelitemfullState extends State<Singelitemfull> {
           child: Column(
             children: [
               SizedBox(
-                height: size.height * 0.01,
+                height: size.height * 0.02,
                 width: size.width,
+              ),
+              Padding(
+                padding: EdgeInsets.all(5),
+                child: Text(
+                  widget.productname,
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                      color: kprimaryColor,
+                      fontWeight: FontWeight.bold,
+                      fontSize: size.width * 0.06),
+                ),
               ),
               Padding(
                 padding: const EdgeInsets.all(8.0),
@@ -119,26 +159,23 @@ class _SingelitemfullState extends State<Singelitemfull> {
                 child: Padding(
                   padding: EdgeInsets.symmetric(horizontal: size.width * 0.05),
                   child: Row(children: [
+                    Expanded(
+                      child: Text(
+                        widget.price.toStringAsFixed(0) + "\$",
+                        style: TextStyle(
+                            color: Colors.redAccent,
+                            fontWeight: FontWeight.bold,
+                            fontSize: size.width * 0.05),
+                      ),
+                    ),
                     Text(
-                      widget.price.toStringAsFixed(0) + "\$",
-                      style: TextStyle(
-                          color: Colors.redAccent,
-                          fontWeight: FontWeight.bold,
-                          fontSize: size.width * 0.05),
-                    ),
-                    SizedBox(
-                      width: size.width * 0.05,
-                    ),
-                    isdiscount
-                        ? Text(widget.preprice.toStringAsFixed(0) + "\$",
-                            style: TextStyle(
-                                fontSize: size.width * 0.05,
-                                color: Colors.black38,
-                                fontWeight: FontWeight.bold,
-                                decoration: TextDecoration.lineThrough))
-                        : SizedBox(
-                            width: size.width * 0.0,
-                          ),
+                        "Category : " +
+                            widget.productmodel.category.category_name,
+                        style: TextStyle(
+                          fontSize: size.width * 0.04,
+                          color: Colors.black.withOpacity(0.7),
+                          fontWeight: FontWeight.w600,
+                        )),
                   ]),
                 ),
               ),
@@ -246,7 +283,10 @@ class _SingelitemfullState extends State<Singelitemfull> {
                   ),
                 ),
               ),
-              const SuggestItemView()
+              SuggestItemView(
+                productlist: widget.productList,
+                categoryModel: widget.productmodel.category,
+              )
             ],
           ),
         ));

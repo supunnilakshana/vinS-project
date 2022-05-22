@@ -103,20 +103,20 @@ class _SresultviewState extends State<Sresultview> {
                                           Icon(Icons.error),
                                     )
                                   ];
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) => Singelitemfull(
-                                                imglist: imglist,
-                                                pid: 'A-456',
-                                                description:
-                                                    'The Casio GA110GB-1A G-Shock Gents Watch is a giant in watch proportions. Living up to the G-Shock name with the X-Large G, the black piece with a two-toned gold dial, features an analogue and digital display with shock and magnetic resistance, an auto LED light with afterglow, world time, 4 daily alarms, 1 snooze, an hourly time signal, stopwatch, countdown timer, full auto calendar and 12/24 hour formats. The watch is made for every day of the year.',
-                                                discount: 50,
-                                                preprice: 200,
-                                                price: 150,
-                                                productname: "Men's Watch",
-                                                status: status,
-                                              )));
+                                  // Navigator.push(
+                                  //     context,
+                                  //     MaterialPageRoute(
+                                  //         builder: (context) => Singelitemfull(
+                                  //               imglist: imglist,
+                                  //               pid: 'A-456',
+                                  //               description:
+                                  //                   'The Casio GA110GB-1A G-Shock Gents Watch is a giant in watch proportions. Living up to the G-Shock name with the X-Large G, the black piece with a two-toned gold dial, features an analogue and digital display with shock and magnetic resistance, an auto LED light with afterglow, world time, 4 daily alarms, 1 snooze, an hourly time signal, stopwatch, countdown timer, full auto calendar and 12/24 hour formats. The watch is made for every day of the year.',
+                                  //               discount: 50,
+                                  //               preprice: 200,
+                                  //               price: 150,
+                                  //               productname: "Men's Watch",
+                                  //               status: status,
+                                  //             )));
                                 },
                                 child: SingleItem(
                                   titel: "Men's Watch",

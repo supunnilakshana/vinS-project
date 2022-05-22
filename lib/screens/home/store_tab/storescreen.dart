@@ -3,10 +3,14 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:vinsartisanmarket/components/errorpage.dart';
 import 'package:vinsartisanmarket/components/roundedtextFiled.dart';
 import 'package:vinsartisanmarket/constansts/ui_constansts.dart';
+import 'package:vinsartisanmarket/models/categoryModel.dart';
+import 'package:vinsartisanmarket/models/productModel.dart';
 import 'package:vinsartisanmarket/screens/home/store_tab/compt/categoryresults.dart';
 import 'package:vinsartisanmarket/screens/home/store_tab/compt/itemgrid.dart';
+import 'package:vinsartisanmarket/service/http_handeler/httpClient.dart';
 import 'package:vinsartisanmarket/test/testmodel.dart';
 
 import 'compt/category_menu.dart';
@@ -23,7 +27,8 @@ class StoreScreen extends StatefulWidget {
 
 class _StoreScreenState extends State<StoreScreen> {
   ScrollController _scrollController = new ScrollController();
-
+  late Future<List<Productmodel>> futureData;
+  HttpClient httpClient = HttpClient();
   String stext = "";
   String categoryid = "cat004";
   bool iscat = false;
@@ -34,6 +39,7 @@ class _StoreScreenState extends State<StoreScreen> {
   @override
   void initState() {
     super.initState();
+    futureData = httpClient.getAllproducts();
   }
 
   @override
@@ -153,72 +159,139 @@ class _StoreScreenState extends State<StoreScreen> {
               ),
             ]),
           ),
-          Padding(
-            padding: EdgeInsets.only(
-                left: size.width * 0.03, right: size.width * 0.03),
-            child: Categorymenu(arts: () {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => CategoryResult(
-                            categoryName: "Art Items",
-                            categoryimg: "assets/icons/arts.png",
-                          )));
-            }, craft: () {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => CategoryResult(
-                            categoryName: "Craft Items",
-                            categoryimg: "assets/icons/craft.png",
-                          )));
-            }, sketch: () {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => CategoryResult(
-                            categoryName: "Sketch Tools",
-                            categoryimg: "assets/icons/sketch.png",
-                          )));
-            }, paint: () {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => CategoryResult(
-                            categoryName: "Paints",
-                            categoryimg: "assets/icons/paints.png",
-                          )));
-            }, brush: () {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => CategoryResult(
-                          categoryName: "Brushes",
-                          categoryimg: "assets/icons/brush.png")));
-            }, fabric: () {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => CategoryResult(
-                          categoryName: 'Fabrics',
-                          categoryimg: "assets/icons/fabric.png")));
-            }, crafttool: () {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => CategoryResult(
-                            categoryName: 'Craft Tool',
-                            categoryimg: "assets/icons/crafttool.png",
-                          )));
-            }, arttool: () {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => CategoryResult(
-                            categoryName: 'Art Tool',
-                            categoryimg: "assets/icons/arttools.png",
-                          )));
-            }),
+          FutureBuilder(
+            future: futureData,
+            builder: (context, snapshot) {
+              if (snapshot.hasData) {
+                List<Productmodel> data = snapshot.data as List<Productmodel>;
+                print(data);
+
+                return Container(
+                    child: Padding(
+                  padding: EdgeInsets.only(
+                      left: size.width * 0.03, right: size.width * 0.03),
+                  child: Categorymenu(arts: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => CategoryResult(
+                                  categoryName: "Art Items",
+                                  categoryimg: "assets/icons/arts.png",
+                                  productlist: data,
+                                  categoryModel: CategoryModel(
+                                      id: "1",
+                                      category_name: "T-Shirts",
+                                      image:
+                                          "/Images/default/categories/1.jpeg"),
+                                )));
+                  }, craft: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => CategoryResult(
+                                  categoryName: "Craft Items",
+                                  categoryimg: "assets/icons/craft.png",
+                                  productlist: data,
+                                  categoryModel: CategoryModel(
+                                      id: "1",
+                                      category_name: "T-Shirts",
+                                      image:
+                                          "/Images/default/categories/1.jpeg"),
+                                )));
+                  }, sketch: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => CategoryResult(
+                                  categoryName: "Sketch Tools",
+                                  categoryimg: "assets/icons/sketch.png",
+                                  productlist: data,
+                                  categoryModel: CategoryModel(
+                                      id: "1",
+                                      category_name: "T-Shirts",
+                                      image:
+                                          "/Images/default/categories/1.jpeg"),
+                                )));
+                  }, paint: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => CategoryResult(
+                                  categoryName: "Paints",
+                                  categoryimg: "assets/icons/paints.png",
+                                  productlist: data,
+                                  categoryModel: CategoryModel(
+                                      id: "1",
+                                      category_name: "T-Shirts",
+                                      image:
+                                          "/Images/default/categories/1.jpeg"),
+                                )));
+                  }, brush: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => CategoryResult(
+                                  categoryName: "Brushes",
+                                  categoryimg: "assets/icons/brush.png",
+                                  productlist: data,
+                                  categoryModel: CategoryModel(
+                                      id: "1",
+                                      category_name: "T-Shirts",
+                                      image:
+                                          "/Images/default/categories/1.jpeg"),
+                                )));
+                  }, fabric: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => CategoryResult(
+                                  categoryName: 'Fabrics',
+                                  categoryimg: "assets/icons/fabric.png",
+                                  productlist: data,
+                                  categoryModel: CategoryModel(
+                                      id: "1",
+                                      category_name: "T-Shirts",
+                                      image:
+                                          "/Images/default/categories/1.jpeg"),
+                                )));
+                  }, crafttool: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => CategoryResult(
+                                  categoryName: 'Craft Tool',
+                                  categoryimg: "assets/icons/crafttool.png",
+                                  productlist: data,
+                                  categoryModel: CategoryModel(
+                                      id: "1",
+                                      category_name: "T-Shirts",
+                                      image:
+                                          "/Images/default/categories/1.jpeg"),
+                                )));
+                  }, arttool: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => CategoryResult(
+                                  categoryName: 'Art Tool',
+                                  categoryimg: "assets/icons/arttools.png",
+                                  productlist: data,
+                                  categoryModel: CategoryModel(
+                                      id: "1",
+                                      category_name: "T-Shirts",
+                                      image:
+                                          "/Images/default/categories/1.jpeg"),
+                                )));
+                  }),
+                ));
+              } else if (snapshot.hasError) {
+                return Errorpage(size: size.width * 0.7);
+              }
+              // By default show a loading spinner.
+              return Center(
+                  child: Lottie.asset("assets/animation/loadingindicator.json",
+                      width: size.height * 0.28));
+            },
           ),
           SizedBox(
             height: size.height * 0.03,

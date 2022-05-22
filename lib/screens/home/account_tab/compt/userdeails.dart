@@ -1,12 +1,17 @@
+import 'dart:convert';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vinsartisanmarket/components/buttons.dart';
 import 'package:vinsartisanmarket/components/errorpage.dart';
 import 'package:vinsartisanmarket/components/internet_not_connect.dart';
 import 'package:vinsartisanmarket/components/popup_dilog.dart';
 import 'package:vinsartisanmarket/components/tots.dart';
 import 'package:vinsartisanmarket/constansts/ui_constansts.dart';
+import 'package:vinsartisanmarket/models/loggedUser.dart';
 import 'package:vinsartisanmarket/screens/auth/edituserdetail.dart';
 import 'package:vinsartisanmarket/screens/auth/signin.dart';
 import 'package:vinsartisanmarket/screens/home/home_screen.dart';
@@ -28,11 +33,24 @@ class _UserdetailsState extends State<Userdetails> {
   late Future<TestModel> futureData;
 
   final bool stat = true;
+  String name = '';
+  String email = " ";
+  String role = '';
+
+  loaduserdata() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    LoggedUserModel user;
+    user = LoggedUserModel.fromMap(jsonDecode(prefs.getString('user') ?? '{}'));
+    name = user.name;
+    email = user.email;
+    role = user.role;
+    setState(() {});
+  }
 
   @override
   void initState() {
     super.initState();
-
+    loaduserdata();
     futureData = TestDataHandeler.fetchTestModelsingel();
   }
 
@@ -105,10 +123,9 @@ class _UserdetailsState extends State<Userdetails> {
                                         context,
                                         MaterialPageRoute(
                                             builder: (context) =>
-                                                const EditUserdetails(
-                                                    uname: "supun nilakshana",
-                                                    uemail:
-                                                        "sup123@abcmail.com",
+                                                EditUserdetails(
+                                                    uname: name,
+                                                    uemail: email,
                                                     umobile: "07012345678")));
                                   } else {
                                     Navigator.pushReplacement(
@@ -181,11 +198,15 @@ class _UserdetailsState extends State<Userdetails> {
                                         context,
                                         "Signout",
                                         "Do you want to signout ? ", () async {
-                                      Navigator.pushReplacement(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  const Signin()));
+                                      SharedPreferences prefs =
+                                          await SharedPreferences.getInstance();
+                                      await prefs.clear();
+                                      Get.offAll(() => const Signin());
+                                      // Navigator.pushReplacement(
+                                      //     context,
+                                      //     MaterialPageRoute(
+                                      //         builder: (context) =>
+                                      //             const Signin()));
                                     });
                                   })),
                         )
@@ -235,7 +256,7 @@ class _UserdetailsState extends State<Userdetails> {
                                                     .w800), // default text style
                                             children: <TextSpan>[
                                               TextSpan(
-                                                text: "Supun Nilakshana",
+                                                text: name,
                                                 style: TextStyle(
                                                     fontSize: size.width * 0.05,
                                                     fontWeight:
@@ -281,7 +302,7 @@ class _UserdetailsState extends State<Userdetails> {
                                                     .w800), // default text style
                                             children: <TextSpan>[
                                               TextSpan(
-                                                text: "supabc@xyzmail.com",
+                                                text: email,
                                                 style: TextStyle(
                                                     fontSize: size.width * 0.05,
                                                     fontWeight:
@@ -297,14 +318,14 @@ class _UserdetailsState extends State<Userdetails> {
                                             left: size.width * 0.035),
                                         child: Text.rich(
                                           TextSpan(
-                                            text: 'Address : ',
+                                            text: 'Role : ',
                                             style: TextStyle(
                                                 fontSize: size.width * 0.05,
                                                 fontWeight: FontWeight
                                                     .w800), // default text style
                                             children: <TextSpan>[
                                               TextSpan(
-                                                text: "No 345,Dotatuwa,Mathara",
+                                                text: "I'm a Buyer",
                                                 style: TextStyle(
                                                     fontSize: size.width * 0.05,
                                                     fontWeight:
