@@ -8,6 +8,7 @@ import 'package:vinsartisanmarket/constansts/ui_constansts.dart';
 import 'package:vinsartisanmarket/models/fetchCartModel.dart';
 import 'package:vinsartisanmarket/screens/home/cart_tab/compt/emtycart.dart';
 import 'package:vinsartisanmarket/screens/orders/orderdetails.dart';
+import 'package:vinsartisanmarket/service/authentication/userHandeler.dart';
 import 'package:vinsartisanmarket/service/http_handeler/httpClient.dart';
 import 'package:vinsartisanmarket/test/testdata_handeler.dart';
 
@@ -67,7 +68,7 @@ class _CartScreenState extends State<CartScreen> {
                       context,
                       MaterialPageRoute(
                           builder: (context) => Orderdetails(
-                                total: total,
+                                itemList: data,
                               )));
                 },
                 icon: const Icon(Icons.arrow_forward),
@@ -97,157 +98,176 @@ class _CartScreenState extends State<CartScreen> {
                               itemCount: data.length,
                               itemBuilder: (context, indext) {
                                 int itemquantity = data[indext].qty;
-                                return Card(
-                                  color: Colors.white,
-                                  child: ListTile(
-                                      contentPadding:
-                                          const EdgeInsets.symmetric(
-                                              horizontal: 20.0, vertical: 10.0),
-                                      leading: Container(
-                                          child: Container(
-                                        child: CachedNetworkImage(
-                                          width: size.width * 0.175,
-                                          imageUrl: imgebaseUrl +
-                                              data[indext].product.image,
-                                          progressIndicatorBuilder: (context,
-                                                  url, downloadProgress) =>
-                                              Container(
-                                            //  height: size.height * 0.01,
-                                            child: Center(
-                                              child: CircularProgressIndicator(
-                                                  color: Colors.indigoAccent,
-                                                  value: downloadProgress
-                                                      .progress),
-                                            ),
-                                          ),
-                                          errorWidget: (context, url, error) =>
-                                              const Icon(Icons.error),
-                                        ),
-                                        // child: Image.network(
-                                        //   fiximagelink + data[indext].imgname,
-                                        //   width: size.width * 0.175,
-                                        // ),
-                                      )),
-                                      title: Text(
-                                        data[indext].product.name,
-                                        style: TextStyle(
-                                            color: Colors.black,
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: size.width * 0.037),
-                                      ),
-                                      subtitle: Row(children: [
-                                        Text(
-                                            data[indext]
-                                                    .product
-                                                    .price
-                                                    .toStringAsFixed(0) +
-                                                "\$",
-                                            style: TextStyle(
-                                                color: Colors.black
-                                                    .withOpacity(0.7))),
-                                        Row(
-                                          children: [
-                                            SizedBox(
-                                              width: size.width * 0.06,
-                                            ),
-                                            Text("Quantity  ",
-                                                style: TextStyle(
-                                                  // fontSize: size.width * 0.04,
-                                                  color: Colors.black
-                                                      .withOpacity(0.7),
-                                                )),
-                                            Container(
-                                              width: size.width * 0.17,
-                                              padding: EdgeInsets.all(
-                                                  size.width * 0.007),
-                                              decoration: BoxDecoration(
-                                                  borderRadius:
-                                                      BorderRadius.circular(
-                                                          size.width * 0.01),
-                                                  color:
-                                                      Colors.indigo.shade400),
-                                              child: Row(
-                                                children: [
-                                                  InkWell(
-                                                      onTap: () {
-                                                        if (itemquantity > 0) {
-                                                          setState(() {
-                                                            itemquantity--;
-                                                          });
-                                                        }
-                                                      },
-                                                      child: Icon(
-                                                        Icons.remove,
-                                                        color: Colors.white,
-                                                        size: size.width * 0.03,
-                                                      )),
-                                                  Container(
-                                                    width: size.width * 0.075,
-                                                    margin:
-                                                        EdgeInsets.symmetric(
-                                                            horizontal:
-                                                                size.width *
-                                                                    0.007),
-                                                    padding:
-                                                        EdgeInsets.symmetric(
-                                                            horizontal:
-                                                                size.width *
-                                                                    0.007,
-                                                            vertical:
-                                                                size.width *
-                                                                    0.005),
-                                                    decoration: BoxDecoration(
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(
-                                                                    size.width *
-                                                                        0.007),
-                                                        color: Colors.white),
-                                                    child: Text(
-                                                      itemquantity.toString(),
-                                                      style: TextStyle(
-                                                          color: Colors.black,
-                                                          fontSize: size.width *
-                                                              0.03),
-                                                    ),
-                                                  ),
-                                                  InkWell(
-                                                      onTap: () {
-                                                        if (itemquantity <
-                                                            1000) {
-                                                          setState(() {
-                                                            itemquantity++;
-                                                          });
-                                                        }
-                                                      },
-                                                      child: Icon(
-                                                        Icons.add,
-                                                        color: Colors.white,
-                                                        size: size.width * 0.03,
-                                                      )),
-                                                ],
+                                return GestureDetector(
+                                  onTap: () async {
+                                    final user = await UserHandeler.getUser();
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) => Orderdetails(
+                                                  itemList: [data[indext]],
+                                                )));
+                                  },
+                                  child: Card(
+                                    color: Colors.white,
+                                    child: ListTile(
+                                        contentPadding:
+                                            const EdgeInsets.symmetric(
+                                                horizontal: 20.0,
+                                                vertical: 10.0),
+                                        leading: Container(
+                                            child: Container(
+                                          child: CachedNetworkImage(
+                                            width: size.width * 0.175,
+                                            imageUrl: imgebaseUrl +
+                                                data[indext].product.image,
+                                            progressIndicatorBuilder: (context,
+                                                    url, downloadProgress) =>
+                                                Container(
+                                              //  height: size.height * 0.01,
+                                              child: Center(
+                                                child:
+                                                    CircularProgressIndicator(
+                                                        color:
+                                                            Colors.indigoAccent,
+                                                        value: downloadProgress
+                                                            .progress),
                                               ),
                                             ),
-                                          ],
+                                            errorWidget:
+                                                (context, url, error) =>
+                                                    const Icon(Icons.error),
+                                          ),
+                                          // child: Image.network(
+                                          //   fiximagelink + data[indext].imgname,
+                                          //   width: size.width * 0.175,
+                                          // ),
+                                        )),
+                                        title: Text(
+                                          data[indext].product.name,
+                                          style: TextStyle(
+                                              color: Colors.black,
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: size.width * 0.037),
                                         ),
-                                      ]),
-                                      trailing: Row(
-                                        mainAxisSize: MainAxisSize.min,
-                                        children: [
-                                          IconButton(
-                                            onPressed: () async {
-                                              httpClient.removeCartItem(
-                                                  data[indext].id);
-                                              Customtost.cartitemremove();
-                                              reloaddata();
-                                            },
-                                            icon: Icon(LineIcons.minusCircle),
-                                            color:
-                                                Colors.black.withOpacity(0.5),
-                                            iconSize: size.width * 0.06,
-                                          )
-                                        ],
-                                      )),
+                                        subtitle: Row(children: [
+                                          Text(
+                                              data[indext]
+                                                      .product
+                                                      .price
+                                                      .toStringAsFixed(0) +
+                                                  "\$",
+                                              style: TextStyle(
+                                                  color: Colors.black
+                                                      .withOpacity(0.7))),
+                                          Row(
+                                            children: [
+                                              SizedBox(
+                                                width: size.width * 0.06,
+                                              ),
+                                              Text("Quantity  ",
+                                                  style: TextStyle(
+                                                    // fontSize: size.width * 0.04,
+                                                    color: Colors.black
+                                                        .withOpacity(0.7),
+                                                  )),
+                                              Container(
+                                                width: size.width * 0.17,
+                                                padding: EdgeInsets.all(
+                                                    size.width * 0.007),
+                                                decoration: BoxDecoration(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            size.width * 0.01),
+                                                    color:
+                                                        Colors.indigo.shade400),
+                                                child: Row(
+                                                  children: [
+                                                    InkWell(
+                                                        onTap: () {
+                                                          if (itemquantity >
+                                                              0) {
+                                                            setState(() {
+                                                              itemquantity--;
+                                                            });
+                                                          }
+                                                        },
+                                                        child: Icon(
+                                                          Icons.remove,
+                                                          color: Colors.white,
+                                                          size:
+                                                              size.width * 0.03,
+                                                        )),
+                                                    Container(
+                                                      width: size.width * 0.075,
+                                                      margin:
+                                                          EdgeInsets.symmetric(
+                                                              horizontal:
+                                                                  size.width *
+                                                                      0.007),
+                                                      padding: EdgeInsets
+                                                          .symmetric(
+                                                              horizontal:
+                                                                  size.width *
+                                                                      0.007,
+                                                              vertical:
+                                                                  size.width *
+                                                                      0.005),
+                                                      decoration: BoxDecoration(
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(size
+                                                                          .width *
+                                                                      0.007),
+                                                          color: Colors.white),
+                                                      child: Text(
+                                                        itemquantity.toString(),
+                                                        style: TextStyle(
+                                                            color: Colors.black,
+                                                            fontSize:
+                                                                size.width *
+                                                                    0.03),
+                                                      ),
+                                                    ),
+                                                    InkWell(
+                                                        onTap: () {
+                                                          if (itemquantity <
+                                                              1000) {
+                                                            setState(() {
+                                                              itemquantity++;
+                                                            });
+                                                          }
+                                                        },
+                                                        child: Icon(
+                                                          Icons.add,
+                                                          color: Colors.white,
+                                                          size:
+                                                              size.width * 0.03,
+                                                        )),
+                                                  ],
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ]),
+                                        trailing: Row(
+                                          mainAxisSize: MainAxisSize.min,
+                                          children: [
+                                            IconButton(
+                                              onPressed: () async {
+                                                httpClient.removeCartItem(
+                                                    data[indext].id);
+                                                Customtost.cartitemremove();
+                                                reloaddata();
+                                              },
+                                              icon: Icon(LineIcons.minusCircle),
+                                              color:
+                                                  Colors.black.withOpacity(0.5),
+                                              iconSize: size.width * 0.06,
+                                            )
+                                          ],
+                                        )),
+                                  ),
                                 );
                               })),
                     ),

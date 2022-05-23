@@ -6,20 +6,27 @@ import 'package:vinsartisanmarket/components/internet_not_connect.dart';
 import 'package:vinsartisanmarket/components/textfileds.dart';
 import 'package:vinsartisanmarket/components/tots.dart';
 import 'package:vinsartisanmarket/constansts/ui_constansts.dart';
+import 'package:vinsartisanmarket/models/fetchCartModel.dart';
+import 'package:vinsartisanmarket/models/orderModel.dart';
 import 'package:vinsartisanmarket/screens/home/home_screen.dart';
+import 'package:vinsartisanmarket/screens/orders/payPalscreen.dart';
+import 'package:vinsartisanmarket/service/authentication/userHandeler.dart';
+import 'package:vinsartisanmarket/service/http_handeler/httpClient.dart';
 import 'package:vinsartisanmarket/service/network/networkhandeler.dart';
 import 'package:vinsartisanmarket/service/validaters/validate_handeler.dart';
 
 class Userdetailscreen extends StatefulWidget {
   final bool islog;
   final String text;
-  final List<dynamic> colist;
+  final double total;
+  final List<FetchCartModel> colist;
 
   const Userdetailscreen({
     Key? key,
     this.text = "",
     required this.colist,
     this.islog = false,
+    required this.total,
   }) : super(key: key);
   @override
   _UserdetailscreenState createState() => _UserdetailscreenState();
@@ -34,6 +41,8 @@ class _UserdetailscreenState extends State<Userdetailscreen> {
   TextEditingController addresscon = TextEditingController();
   TextEditingController notecon = TextEditingController();
   TextEditingController postalcon = TextEditingController();
+  TextEditingController statecon = TextEditingController();
+  TextEditingController citycon = TextEditingController();
 
   String name = "";
   String email = "";
@@ -41,6 +50,8 @@ class _UserdetailscreenState extends State<Userdetailscreen> {
   String address = "";
   String postalcode = "";
   String note = "";
+  String city = "";
+  String state = "";
 
   var base;
   @override
@@ -97,13 +108,41 @@ class _UserdetailscreenState extends State<Userdetailscreen> {
               ));
 
               if (isconnect == true) {
+                final user = await UserHandeler.getUser();
+                final order = OrderModel(
+                    address: address,
+                    full_name: name,
+                    total: widget.total,
+                    city: city,
+                    state: state,
+                    payment_type: '1',
+                    postal_code: postalcode,
+                    order_note: note,
+                    user_id: user.id,
+                    contact_no: mobileno);
+                String res = await httpClient.createOrder(order);
+                if (res != "null") {
+                  Customtost.commontost("Order is created", Colors.green);
+
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => PayPalScreen(
+                                total: widget.total,
+                                orderid: res,
+                              )));
+                } else {
+                  Customtost.commontost("Order fail", Colors.red);
+                }
               } else {
                 Navigator.pushReplacement(
                     context,
                     MaterialPageRoute(
                         builder: (context) => NointernetScreen(
-                            pushscreen:
-                                Userdetailscreen(colist: widget.colist))));
+                                pushscreen: Userdetailscreen(
+                              colist: widget.colist,
+                              total: widget.total,
+                            ))));
               }
             } else {
               print("Not Complete");
@@ -145,11 +184,33 @@ class _UserdetailscreenState extends State<Userdetailscreen> {
                           },
                           save: (save) {},
                           controller: namecon,
-                          hintText: " Name",
-                          label: " Name",
+                          hintText: "Full Name",
+                          label: "Full Name",
                         ),
                       ),
                     ),
+                    // Padding(
+                    //   padding: EdgeInsets.only(
+                    //       bottom: size.height * 0.02,
+                    //       right: size.width * 0.02,
+                    //       left: size.width * 0.02),
+                    //   child: Container(
+                    //     // width: size.width * 0.96,
+                    //     child: Gnoiconformfiled(
+                    //       onchange: (text) {
+                    //         email = text;
+                    //       },
+                    //       valid: (text) {
+                    //         print(text);
+                    //         return Validater.vaildemail(email);
+                    //       },
+                    //       save: (save) {},
+                    //       controller: emailcon,
+                    //       hintText: "Email",
+                    //       label: "Email",
+                    //     ),
+                    //   ),
+                    // ),
                     Padding(
                       padding: EdgeInsets.only(
                           bottom: size.height * 0.02,
@@ -158,30 +219,8 @@ class _UserdetailscreenState extends State<Userdetailscreen> {
                       child: Container(
                         // width: size.width * 0.96,
                         child: Gnoiconformfiled(
-                          onchange: (text) {
-                            email = text;
-                          },
-                          valid: (text) {
-                            print(text);
-                            return Validater.vaildemail(email);
-                          },
-                          save: (save) {},
-                          controller: emailcon,
-                          hintText: "Email",
-                          label: "Email",
-                        ),
-                      ),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.only(
-                          bottom: size.height * 0.02,
-                          right: size.width * 0.02,
-                          left: size.width * 0.02),
-                      child: Container(
-                        // width: size.width * 0.96,
-                        child: Gnoiconformfiled(
-                          hintText: "Mobile No",
-                          label: "Mobile No",
+                          hintText: "Contact No",
+                          label: "Contact No",
                           onchange: (text) {
                             mobileno = text;
                           },
@@ -220,6 +259,56 @@ class _UserdetailscreenState extends State<Userdetailscreen> {
                           bottom: size.height * 0.02,
                           right: size.width * 0.02,
                           left: size.width * 0.02),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Expanded(
+                            flex: 1,
+                            child: Container(
+                              child: Gnoiconformfiled(
+                                onchange: (text) {
+                                  city = text;
+                                  print(text);
+                                },
+                                valid: (text) {
+                                  return Validater.genaralvalid(text!);
+                                },
+                                save: (save) {},
+                                controller: citycon,
+                                hintText: "City",
+                                label: "City",
+                              ),
+                            ),
+                          ),
+                          SizedBox(
+                            width: size.width * 0.05,
+                          ),
+                          Expanded(
+                            flex: 1,
+                            child: Container(
+                              child: Gnoiconformfiled(
+                                onchange: (text) {
+                                  state = text;
+                                },
+                                valid: (text) {
+                                  print(text);
+                                  return Validater.genaralvalid(text!);
+                                },
+                                save: (save) {},
+                                controller: statecon,
+                                hintText: "State",
+                                label: "State",
+                              ),
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.only(
+                          bottom: size.height * 0.02,
+                          right: size.width * 0.02,
+                          left: size.width * 0.02),
                       child: Container(
                         // width: size.width * 0.96,
                         child: Gnoiconformfiled(
@@ -246,7 +335,7 @@ class _UserdetailscreenState extends State<Userdetailscreen> {
                         // width: size.width * 0.96,
                         child: Gnoiconformfiled(
                           hintText: "Note",
-                          label: "Note(Optional)",
+                          label: "Order note(Optional)",
                           maxlines: 2,
                           onchange: (text) {
                             note = text;
@@ -257,6 +346,43 @@ class _UserdetailscreenState extends State<Userdetailscreen> {
                             return null;
                           },
                         ),
+                      ),
+                    ),
+                    Container(
+                      width: size.width,
+                      alignment: Alignment.centerLeft,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Padding(
+                            padding: EdgeInsets.only(
+                                // bottom: size.height * 0.02,
+                                right: size.width * 0.02,
+                                left: size.width * 0.02),
+                            child: Text("Payment Methods",
+                                style: TextStyle(
+                                  fontSize: size.width * 0.04,
+                                  color: Colors.black.withOpacity(0.7),
+                                  fontWeight: FontWeight.w600,
+                                )),
+                          ),
+                          Padding(
+                            padding: EdgeInsets.only(left: size.width * 0.00),
+                            child: Row(children: [
+                              Radio(
+                                value: 1,
+                                groupValue: 1,
+                                onChanged: (value) {
+                                  setState(() {});
+                                },
+                              ),
+                              Image.asset(
+                                "assets/icons/paypal.png",
+                                width: size.width * 0.2,
+                              ),
+                            ]),
+                          )
+                        ],
                       ),
                     ),
                   ],

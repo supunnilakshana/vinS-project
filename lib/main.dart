@@ -6,7 +6,9 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:vinsartisanmarket/Models/AuthUser.dart';
 
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:vinsartisanmarket/screens/auth/signin.dart';
 import 'package:vinsartisanmarket/screens/home/home_screen.dart';
+import 'package:vinsartisanmarket/screens/introduction/indroductionscreen.dart';
 import 'package:vinsartisanmarket/screens/layout.dart';
 import 'package:vinsartisanmarket/screens/welcome_screen/welcome_screen.dart';
 import 'package:vinsartisanmarket/service/authentication/auth.dart';
@@ -37,13 +39,17 @@ Future checkAuth() async {
     }
     if (res['code'] == 401) {
       isLoggedIn = false;
+      nextscreen = const IntroDuctionPage(screen: Signin());
     } else {
       isLoggedIn = true;
       httpClient.setToken(token);
       authUser.setUser(user);
+      nextscreen = const HomeScreen();
     }
   }
 }
+
+Widget nextscreen = const Signin();
 
 class VAM extends StatelessWidget {
   const VAM({Key? key}) : super(key: key);
@@ -64,7 +70,9 @@ class VAM extends StatelessWidget {
           ),
         ),
       ),
-      home: const WelcomeScreen(), // const Testscreen1()
+      home: WelcomeScreen(
+        nextscreen: nextscreen,
+      ), // const Testscreen1()
       // home: isLoggedIn ? const Layout() : const Auth(),
     );
   }

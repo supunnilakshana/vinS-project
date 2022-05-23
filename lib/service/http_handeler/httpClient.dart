@@ -7,8 +7,10 @@ import 'package:vinsartisanmarket/models/addcartModel.dart';
 import 'package:vinsartisanmarket/models/addwishModel.dart';
 import 'package:vinsartisanmarket/models/fetchCartModel.dart';
 import 'package:vinsartisanmarket/models/fetchWishModel.dart';
+import 'package:vinsartisanmarket/models/orderModel.dart';
 import 'package:vinsartisanmarket/models/productModel.dart';
 import 'package:vinsartisanmarket/models/regiUser.dart';
+import 'package:vinsartisanmarket/service/authentication/userHandeler.dart';
 
 class HttpClient {
   Dio dio = Dio();
@@ -186,6 +188,61 @@ class HttpClient {
       "code": response.statusCode,
       "data": response.data,
     };
+  }
+
+  //order
+  Future<String> createOrder(OrderModel orderModel) async {
+    String orderid = "null";
+    try {
+      await setSavedToken();
+      final response = await post('orders/create', orderModel.toMap());
+      if (kDebugMode) {
+        print(response.data);
+      }
+      OrderModel resdata = OrderModel.fromMap(response.data);
+      orderid = resdata.id.toString();
+    } on Exception catch (e) {
+      if (kDebugMode) {
+        print(e);
+      }
+    }
+    return orderid;
+  }
+
+  Future orderPaymentsUpdate(String id) async {
+    await setSavedToken();
+    final response = await dio.put('orders/updatePaymentStatus/' + id);
+    if (kDebugMode) {
+      print(response.data);
+    }
+
+    return {
+      "code": response.statusCode,
+      "data": response.data,
+    };
+  }
+
+  Future<List<OrderModel>> getOders() async {
+    List<OrderModel> filterdList = [];
+    final user = await UserHandeler.getUser();
+    await setSavedToken();
+    final response = await dio.post("orders/getOrders");
+
+    if (response.statusCode == 200) {
+      if (kDebugMode) {
+        print(response.data);
+      }
+      final orders =
+          (response.data as List).map((e) => OrderModel.fromMap(e)).toList();
+      orders.forEach((element) {
+        if (element.user_id == user.id) {
+          filterdList.add(element);
+        }
+      });
+    } else {
+      throw Exception('Failed to load');
+    }
+    return filterdList;
   }
 }
 

@@ -3,12 +3,15 @@ import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:is_first_run/is_first_run.dart';
+import 'package:vinsartisanmarket/main.dart';
 import 'package:vinsartisanmarket/screens/auth/signin.dart';
 import 'package:vinsartisanmarket/screens/home/home_screen.dart';
 import 'package:vinsartisanmarket/screens/introduction/indroductionscreen.dart';
 
 class WelcomeScreen extends StatefulWidget {
-  const WelcomeScreen({Key? key}) : super(key: key);
+  const WelcomeScreen({Key? key, required this.nextscreen}) : super(key: key);
+
+  final Widget nextscreen;
 
   @override
   State<StatefulWidget> createState() => StartState();
@@ -37,9 +40,7 @@ class StartState extends State<WelcomeScreen> {
 
   route() {
     Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(
-            builder: (context) => const IntroDuctionPage(screen: Signin())));
+        context, MaterialPageRoute(builder: (context) => nextscreen));
   }
 
   initScreen(BuildContext context) {

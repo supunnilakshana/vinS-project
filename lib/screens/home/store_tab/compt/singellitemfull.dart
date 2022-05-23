@@ -6,6 +6,7 @@ import 'package:vinsartisanmarket/components/tots.dart';
 import 'package:vinsartisanmarket/constansts/ui_constansts.dart';
 import 'package:vinsartisanmarket/models/addcartModel.dart';
 import 'package:vinsartisanmarket/models/addwishModel.dart';
+import 'package:vinsartisanmarket/models/fetchCartModel.dart';
 import 'package:vinsartisanmarket/models/productModel.dart';
 import 'package:vinsartisanmarket/screens/home/store_tab/compt/suggestsItems.dart';
 import 'package:vinsartisanmarket/screens/orders/orderdetails.dart';
@@ -94,11 +95,21 @@ class _SingelitemfullState extends State<Singelitemfull> {
                     backgroundColor: Colors.deepOrangeAccent,
                     onPressed: () async {
                       print("pressed");
+                      final user = await UserHandeler.getUser();
                       Navigator.push(
                           context,
                           MaterialPageRoute(
                               builder: (context) => Orderdetails(
-                                    total: total,
+                                    itemList: [
+                                      FetchCartModel(
+                                          id: 0,
+                                          userid: user.id,
+                                          productid: int.parse(widget.pid),
+                                          qty: itemquantity,
+                                          createdat: DateTime.now.toString(),
+                                          updatedat: DateTime.now.toString(),
+                                          product: widget.productmodel)
+                                    ],
                                   )));
                     },
                     label: const Text("Buy It Now"))),

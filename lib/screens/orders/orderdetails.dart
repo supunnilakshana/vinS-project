@@ -2,20 +2,21 @@ import 'package:flutter/material.dart';
 
 import 'package:vinsartisanmarket/components/internet_not_connect.dart';
 import 'package:vinsartisanmarket/constansts/ui_constansts.dart';
+import 'package:vinsartisanmarket/models/fetchCartModel.dart';
 import 'package:vinsartisanmarket/screens/orders/userdetails.dart';
 import 'package:vinsartisanmarket/service/network/networkhandeler.dart';
 
 class Orderdetails extends StatefulWidget {
-  final double total;
+  final List<FetchCartModel> itemList;
 
-  const Orderdetails({Key? key, this.total = 500.0}) : super(key: key);
+  const Orderdetails({Key? key, required this.itemList}) : super(key: key);
   @override
   _OrderdetailsState createState() => _OrderdetailsState();
 }
 
 class _OrderdetailsState extends State<Orderdetails> {
   List<DataRow> datarow = [];
-
+  double total = 0.0;
   @override
   void initState() {
     loaddata();
@@ -54,15 +55,17 @@ class _OrderdetailsState extends State<Orderdetails> {
               Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => const Userdetailscreen(
-                            colist: [],
+                      builder: (context) => Userdetailscreen(
+                            colist: widget.itemList,
+                            total: total,
                           )));
             } else {
               Navigator.push(
                   context,
                   MaterialPageRoute(
                       builder: (context) => NointernetScreen(
-                          pushscreen: Orderdetails(total: widget.total))));
+                          pushscreen:
+                              Orderdetails(itemList: widget.itemList))));
             }
 
             //  await DataHandeler.createOrder(order);
@@ -91,14 +94,14 @@ class _OrderdetailsState extends State<Orderdetails> {
                             DataColumn(
                                 label: Text('Product',
                                     style: TextStyle(
-                                      fontSize: size.width * 0.04,
+                                      fontSize: size.width * 0.035,
                                       fontWeight: FontWeight.w500,
                                       color: Colors.black.withOpacity(0.7),
                                     ))),
                             DataColumn(
-                                label: Text('Total Price',
+                                label: Text('Total',
                                     style: TextStyle(
-                                      fontSize: size.width * 0.04,
+                                      fontSize: size.width * 0.035,
                                       fontWeight: FontWeight.w500,
                                       color: Colors.black.withOpacity(0.78),
                                     ))),
@@ -120,7 +123,7 @@ class _OrderdetailsState extends State<Orderdetails> {
               padding: EdgeInsets.only(
                   left: size.width * 0.04, top: size.height * 0.02),
               child: Text(
-                "Total " + widget.total.toStringAsFixed(0) + "\$",
+                "Total " + total.toStringAsFixed(0) + "\$",
                 style: TextStyle(
                     color: Colors.black.withOpacity(0.8),
                     fontSize: size.width * 0.043,
@@ -132,12 +135,13 @@ class _OrderdetailsState extends State<Orderdetails> {
   }
 
   loaddata() async {
-    List<int> sampledata = [10, 30, 40, 50, 70];
-
-    sampledata.forEach((element) {
+    var data = widget.itemList;
+    double tot = 0.0;
+    data.forEach((element) {
+      tot = tot + (element.qty * element.product.price);
       DataRow d = DataRow(cells: [
         DataCell(Text(
-          "i phone 6s",
+          element.product.name,
           style: TextStyle(
             fontWeight: FontWeight.w700,
             color: Colors.black.withOpacity(0.8),
@@ -145,7 +149,10 @@ class _OrderdetailsState extends State<Orderdetails> {
         )),
         DataCell(
           Text(
-            " 10" + "\$" + " X " + element.toString(),
+            element.product.price.toStringAsFixed(0) +
+                "\$" +
+                " X " +
+                element.qty.toString(),
             style: TextStyle(
               fontWeight: FontWeight.w700,
               color: Colors.black.withOpacity(0.8),
@@ -156,6 +163,9 @@ class _OrderdetailsState extends State<Orderdetails> {
       setState(() {
         datarow.add(d);
       });
+    });
+    setState(() {
+      total = tot;
     });
   }
 }

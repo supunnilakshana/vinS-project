@@ -6,8 +6,9 @@ import 'package:lottie/lottie.dart';
 
 import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:vinsartisanmarket/constansts/ui_constansts.dart';
+import 'package:vinsartisanmarket/models/orderModel.dart';
+import 'package:vinsartisanmarket/service/http_handeler/httpClient.dart';
 import 'package:vinsartisanmarket/test/testdata_handeler.dart';
-import 'package:vinsartisanmarket/test/testmodel.dart';
 
 import 'noodrderhostory.dart';
 
@@ -23,12 +24,12 @@ class Orderhistoryscreen extends StatefulWidget {
 }
 
 class _OrderhistoryscreenState extends State<Orderhistoryscreen> {
-  late Future<List<TestModel>> futureData;
+  late Future<List<OrderModel>> futureData;
 
   @override
   void initState() {
     super.initState();
-    futureData = TestDataHandeler.fetchTestModel();
+    futureData = httpClient.getOders();
   }
 
   double total = 0;
@@ -36,6 +37,11 @@ class _OrderhistoryscreenState extends State<Orderhistoryscreen> {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
+      // floatingActionButton: FloatingActionButton(
+      //   onPressed: () async {
+      //     await httpClient.getOders();
+      //   },
+      // ),
       backgroundColor: kprimarylightcolor,
       appBar: AppBar(
           title: Center(
@@ -57,20 +63,26 @@ class _OrderhistoryscreenState extends State<Orderhistoryscreen> {
           future: futureData,
           builder: (context, snapshot) {
             if (snapshot.hasData) {
-              List<TestModel> data = snapshot.data as List<TestModel>;
+              List<OrderModel> data = snapshot.data as List<OrderModel>;
               print(data);
               if (data.isNotEmpty) {
                 int st;
                 return Container(
                     child: ListView.builder(
-                        itemCount: 10,
+                        itemCount: data.length,
                         itemBuilder: (context, indext) {
-                          var rng = Random(); //for test and view
-                          st = rng.nextInt(3);
-                          total = 450.50;
+                          int st = 3;
+                          if (data[indext].is_paid == 1) {
+                            st = 1;
+                          } else if (data[indext].is_paid == 0) {
+                            st = 2;
+                          } else {
+                            st = 3;
+                          }
+                          total = data[indext].total;
                           return GestureDetector(
                             onTap: () {
-                              _openPopuporder(context);
+                              _openPopuporder(context, data[indext]);
                             },
                             child: Card(
                               color: Colors.white,
@@ -81,15 +93,15 @@ class _OrderhistoryscreenState extends State<Orderhistoryscreen> {
                                     child: Container(
                                   child: Image.asset(
                                     st == 1
-                                        ? "assets/icons/proceesing.png"
+                                        ? "assets/icons/paid.png"
                                         : st == 2
-                                            ? "assets/icons/delivered.png"
+                                            ? "assets/icons/papermoney.png"
                                             : "assets/icons/unknown.png",
                                     width: size.width * 0.175,
                                   ),
                                 )),
                                 title: Text(
-                                  "od-3465",
+                                  "Id : " + data[indext].id.toString(),
                                   style: TextStyle(
                                       color: Colors.black,
                                       fontWeight: FontWeight.bold,
@@ -109,9 +121,9 @@ class _OrderhistoryscreenState extends State<Orderhistoryscreen> {
                                     ),
                                     Text(
                                         st == 1
-                                            ? "Status : processing"
+                                            ? "Status : Paid"
                                             : st == 2
-                                                ? "Status : Delivered "
+                                                ? "Status : Not Paid "
                                                 : "Status : Unkown",
                                         style: TextStyle(
                                             color:
@@ -138,8 +150,9 @@ class _OrderhistoryscreenState extends State<Orderhistoryscreen> {
     );
   }
 
-  _openPopuporder(context) {
+  _openPopuporder(context, OrderModel model) {
     Size size = MediaQuery.of(context).size;
+    String pstatus = model.is_paid == 1 ? "Paid" : "Not Paid";
     Alert(
         context: context,
         title: "Order details",
@@ -150,7 +163,7 @@ class _OrderhistoryscreenState extends State<Orderhistoryscreen> {
               padding: EdgeInsets.only(
                   bottom: size.height * 0.01, left: size.width * 0.035),
               child: Text(
-                "Order id : od-3465",
+                "Order id : " + model.id.toString(),
                 style: TextStyle(fontSize: size.width * 0.04),
               ),
             ),
@@ -158,7 +171,7 @@ class _OrderhistoryscreenState extends State<Orderhistoryscreen> {
               padding: EdgeInsets.only(
                   bottom: size.height * 0.01, left: size.width * 0.035),
               child: Text(
-                "Customer name : Supun Nilakshana",
+                "Customer name : " + model.full_name,
                 style: TextStyle(fontSize: size.width * 0.04),
               ),
             ),
@@ -166,7 +179,7 @@ class _OrderhistoryscreenState extends State<Orderhistoryscreen> {
               padding: EdgeInsets.only(
                   bottom: size.height * 0.01, left: size.width * 0.035),
               child: Text(
-                "Total :  " + total.toStringAsFixed(0) + "\$",
+                "Total :  " + model.total.toStringAsFixed(0) + "\$",
                 style: TextStyle(fontSize: size.width * 0.04),
               ),
             ),
@@ -174,7 +187,7 @@ class _OrderhistoryscreenState extends State<Orderhistoryscreen> {
               padding: EdgeInsets.only(
                   bottom: size.height * 0.01, left: size.width * 0.035),
               child: Text(
-                "Mobile : 0711234567",
+                "Mobile : " + model.contact_no,
                 style: TextStyle(fontSize: size.width * 0.04),
               ),
             ),
@@ -182,18 +195,18 @@ class _OrderhistoryscreenState extends State<Orderhistoryscreen> {
               padding: EdgeInsets.only(
                   bottom: size.height * 0.01, left: size.width * 0.035),
               child: Text(
-                "Order status : Delivered",
+                "Order status : " + pstatus,
                 style: TextStyle(fontSize: size.width * 0.04),
               ),
             ),
-            Padding(
-              padding: EdgeInsets.only(
-                  bottom: size.height * 0.01, left: size.width * 0.035),
-              child: Text(
-                "Ordered Date :  2021-01-20",
-                style: TextStyle(fontSize: size.width * 0.04),
-              ),
-            ),
+            // Padding(
+            //   padding: EdgeInsets.only(
+            //       bottom: size.height * 0.01, left: size.width * 0.035),
+            //   child: Text(
+            //     "Ordered Date :  2021-01-20",
+            //     style: TextStyle(fontSize: size.width * 0.04),
+            //   ),
+            // ),
           ],
         ),
         buttons: [
