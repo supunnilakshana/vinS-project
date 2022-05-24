@@ -252,20 +252,36 @@ class _SignupState extends State<Signup> {
       print(res);
     }
     if (res['code'] == 200) {
+      Customtost.commontost("Registered successful", Colors.green);
+
       if (kDebugMode) {
         print("sucessfull");
       }
-    }
-    if (res['code'] == 200) {
-      httpClient.setToken(res['data']['token']);
-      authUser.saveUser(res['data']['user']);
-      Get.offAll(() => const HomeScreen());
+
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (context) {
+            return const Signin();
+          },
+        ),
+      );
+
+      // Map reslog = await httpClient
+      //     .signIn({'email': emailcontroller.text, 'password': password});
+      // if (reslog['code'] == 200) {
+      //   httpClient.setToken(res['data']['token']);
+      //   authUser.saveUser(res['data']['user']);
+      //   Get.offAll(() => const HomeScreen());
+      // }
     } else {
       showSnackBar('Oops!', 'Account already exist. Please try again.');
       status = true;
       setState(() {});
       loading.value = false;
     }
+
     loading.value = false;
+    setState(() {});
   }
 }

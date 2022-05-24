@@ -245,5 +245,7 @@ class _SigninState extends State<Signin> {
       setState(() {});
       loading.value = false;
     }
+    setState(() {});
+    loading.value = false;
   }
 }

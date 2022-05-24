@@ -27,9 +27,11 @@ Future checkAuth() async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   String token = prefs.getString('token') ?? '';
   Map<String, dynamic> user = jsonDecode(prefs.getString('user') ?? '{}');
-
+  // print("ok1");
   if (token.isEmpty) {
     isLoggedIn = false;
+    nextscreen = const IntroDuctionPage(screen: Signin());
+    // print("ok2");
   } else {
     httpClient.setToken(token);
     Map res = await httpClient.authCheck();
@@ -38,9 +40,11 @@ Future checkAuth() async {
       print(res);
     }
     if (res['code'] == 401) {
+      print("notlog");
       isLoggedIn = false;
       nextscreen = const IntroDuctionPage(screen: Signin());
     } else {
+      print("log");
       isLoggedIn = true;
       httpClient.setToken(token);
       authUser.setUser(user);
@@ -49,7 +53,7 @@ Future checkAuth() async {
   }
 }
 
-Widget nextscreen = const Signin();
+Widget nextscreen = const IntroDuctionPage(screen: Signin());
 
 class VAM extends StatelessWidget {
   const VAM({Key? key}) : super(key: key);

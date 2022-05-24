@@ -4,9 +4,9 @@ import 'package:vinsartisanmarket/components/categoryitem.dart';
 class Categorymenu extends StatelessWidget {
   final Function arts;
   final Function craft;
-  final Function sketch;
-  final Function paint;
-  final Function brush;
+  final Function leather;
+  final Function clothes;
+  final Function shoes;
   final Function fabric;
   final Function crafttool;
   final Function arttool;
@@ -15,9 +15,9 @@ class Categorymenu extends StatelessWidget {
     Key? key,
     required this.arts,
     required this.craft,
-    required this.sketch,
-    required this.paint,
-    required this.brush,
+    required this.leather,
+    required this.clothes,
+    required this.shoes,
     required this.fabric,
     required this.crafttool,
     required this.arttool,
@@ -39,6 +39,32 @@ class Categorymenu extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Padding(
+                  padding: EdgeInsets.only(right: size.width * 0.025),
+                  child: GestureDetector(
+                    onTap: () {
+                      clothes();
+                    },
+                    child: const CategoryItem(
+                      imgsrc: "assets/icons/clothes.png",
+                      label: 'Clothes',
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: EdgeInsets.only(
+                    right: size.width * 0.025,
+                  ),
+                  child: GestureDetector(
+                    onTap: () {
+                      leather();
+                    },
+                    child: const CategoryItem(
+                      imgsrc: "assets/icons/leather.png",
+                      label: 'Leather Items',
+                    ),
+                  ),
+                ),
+                Padding(
                   padding: EdgeInsets.only(
                       left: size.width * 0.01, right: size.width * 0.025),
                   child: GestureDetector(
@@ -52,40 +78,16 @@ class Categorymenu extends StatelessWidget {
                   ),
                 ),
                 Padding(
-                  padding: EdgeInsets.only(right: size.width * 0.025),
-                  child: GestureDetector(
-                    onTap: () {
-                      craft();
-                    },
-                    child: const CategoryItem(
-                      imgsrc: "assets/icons/craft.png",
-                      label: 'Craft Items',
-                    ),
-                  ),
-                ),
-                Padding(
                   padding: EdgeInsets.only(
                     right: size.width * 0.025,
                   ),
                   child: GestureDetector(
                     onTap: () {
-                      sketch();
+                      arttool();
                     },
                     child: const CategoryItem(
-                      imgsrc: "assets/icons/sketch.png",
-                      label: 'Sketch Tools',
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding: EdgeInsets.only(right: size.width * 0.025),
-                  child: GestureDetector(
-                    onTap: () {
-                      paint();
-                    },
-                    child: const CategoryItem(
-                      imgsrc: "assets/icons/paints.png",
-                      label: 'Paints',
+                      imgsrc: "assets/icons/arttools.png",
+                      label: 'Art Tools',
                     ),
                   ),
                 ),
@@ -102,11 +104,23 @@ class Categorymenu extends StatelessWidget {
                   padding: EdgeInsets.only(right: size.width * 0.025),
                   child: GestureDetector(
                     onTap: () {
-                      brush();
+                      craft();
                     },
                     child: const CategoryItem(
-                      imgsrc: "assets/icons/brush.png",
-                      label: 'Brushes',
+                      imgsrc: "assets/icons/craft.png",
+                      label: 'Craft Items',
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: EdgeInsets.only(right: size.width * 0.025),
+                  child: GestureDetector(
+                    onTap: () {
+                      crafttool();
+                    },
+                    child: const CategoryItem(
+                      imgsrc: "assets/icons/crafttool.png",
+                      label: 'Craft Tools',
                     ),
                   ),
                 ),
@@ -127,25 +141,11 @@ class Categorymenu extends StatelessWidget {
                   padding: EdgeInsets.only(right: size.width * 0.025),
                   child: GestureDetector(
                     onTap: () {
-                      crafttool();
+                      shoes();
                     },
                     child: const CategoryItem(
-                      imgsrc: "assets/icons/crafttool.png",
-                      label: 'Craft Tool',
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding: EdgeInsets.only(
-                    right: size.width * 0.025,
-                  ),
-                  child: GestureDetector(
-                    onTap: () {
-                      arttool();
-                    },
-                    child: const CategoryItem(
-                      imgsrc: "assets/icons/arttools.png",
-                      label: 'Art Tool',
+                      imgsrc: "assets/icons/shoese.png",
+                      label: 'Shoese',
                     ),
                   ),
                 ),

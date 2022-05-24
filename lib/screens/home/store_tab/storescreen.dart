@@ -146,7 +146,7 @@ class _StoreScreenState extends State<StoreScreen> {
                     padding: EdgeInsets.only(bottom: size.height * 0.018),
                     child: CachedNetworkImage(
                       imageUrl:
-                          "https://i.pinimg.com/originals/d3/3a/05/d33a05f7bf713f976d0ebe306b19dd62.jpg",
+                          "https://i.pinimg.com/originals/ce/19/1f/ce191f137fdb797b99a1c2930b61c57c.jpg",
                       progressIndicatorBuilder:
                           (context, url, downloadProgress) => Center(
                         child: CircularProgressIndicator(
@@ -179,8 +179,8 @@ class _StoreScreenState extends State<StoreScreen> {
                                   categoryimg: "assets/icons/arts.png",
                                   productlist: data,
                                   categoryModel: CategoryModel(
-                                      id: "1",
-                                      category_name: "T-Shirts",
+                                      id: "4",
+                                      category_name: "Art Items",
                                       image:
                                           "/Images/default/categories/1.jpeg"),
                                 )));
@@ -193,50 +193,50 @@ class _StoreScreenState extends State<StoreScreen> {
                                   categoryimg: "assets/icons/craft.png",
                                   productlist: data,
                                   categoryModel: CategoryModel(
-                                      id: "1",
-                                      category_name: "T-Shirts",
+                                      id: "5",
+                                      category_name: "Craft Items",
                                       image:
                                           "/Images/default/categories/1.jpeg"),
                                 )));
-                  }, sketch: () {
+                  }, leather: () {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
                             builder: (context) => CategoryResult(
-                                  categoryName: "Sketch Tools",
-                                  categoryimg: "assets/icons/sketch.png",
+                                  categoryName: "Leather Items",
+                                  categoryimg: "assets/icons/leather.png",
                                   productlist: data,
                                   categoryModel: CategoryModel(
-                                      id: "1",
-                                      category_name: "T-Shirts",
+                                      id: "2",
+                                      category_name: "Leather Items",
                                       image:
                                           "/Images/default/categories/1.jpeg"),
                                 )));
-                  }, paint: () {
+                  }, clothes: () {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
                             builder: (context) => CategoryResult(
-                                  categoryName: "Paints",
-                                  categoryimg: "assets/icons/paints.png",
+                                  categoryName: "Clothes",
+                                  categoryimg: "assets/icons/clothes.png",
                                   productlist: data,
                                   categoryModel: CategoryModel(
                                       id: "1",
-                                      category_name: "T-Shirts",
+                                      category_name: "Clothes",
                                       image:
                                           "/Images/default/categories/1.jpeg"),
                                 )));
-                  }, brush: () {
+                  }, shoes: () {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
                             builder: (context) => CategoryResult(
-                                  categoryName: "Brushes",
-                                  categoryimg: "assets/icons/brush.png",
+                                  categoryName: "Shoese",
+                                  categoryimg: "assets/icons/shoese.png",
                                   productlist: data,
                                   categoryModel: CategoryModel(
-                                      id: "1",
-                                      category_name: "T-Shirts",
+                                      id: "8",
+                                      category_name: "Shoese",
                                       image:
                                           "/Images/default/categories/1.jpeg"),
                                 )));
@@ -249,8 +249,8 @@ class _StoreScreenState extends State<StoreScreen> {
                                   categoryimg: "assets/icons/fabric.png",
                                   productlist: data,
                                   categoryModel: CategoryModel(
-                                      id: "1",
-                                      category_name: "T-Shirts",
+                                      id: "7",
+                                      category_name: 'Fabrics',
                                       image:
                                           "/Images/default/categories/1.jpeg"),
                                 )));
@@ -263,8 +263,8 @@ class _StoreScreenState extends State<StoreScreen> {
                                   categoryimg: "assets/icons/crafttool.png",
                                   productlist: data,
                                   categoryModel: CategoryModel(
-                                      id: "1",
-                                      category_name: "T-Shirts",
+                                      id: "6",
+                                      category_name: 'Craft Tool',
                                       image:
                                           "/Images/default/categories/1.jpeg"),
                                 )));
@@ -277,8 +277,8 @@ class _StoreScreenState extends State<StoreScreen> {
                                   categoryimg: "assets/icons/arttools.png",
                                   productlist: data,
                                   categoryModel: CategoryModel(
-                                      id: "1",
-                                      category_name: "T-Shirts",
+                                      id: "3",
+                                      category_name: 'Art Tool',
                                       image:
                                           "/Images/default/categories/1.jpeg"),
                                 )));

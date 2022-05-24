@@ -66,7 +66,6 @@ class _OrderhistoryscreenState extends State<Orderhistoryscreen> {
               List<OrderModel> data = snapshot.data as List<OrderModel>;
               print(data);
               if (data.isNotEmpty) {
-                int st;
                 return Container(
                     child: ListView.builder(
                         itemCount: data.length,

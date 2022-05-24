@@ -44,14 +44,14 @@ class _UserdetailscreenState extends State<Userdetailscreen> {
   TextEditingController statecon = TextEditingController();
   TextEditingController citycon = TextEditingController();
 
-  String name = "";
-  String email = "";
-  String mobileno = "";
-  String address = "";
-  String postalcode = "";
-  String note = "";
-  String city = "";
-  String state = "";
+  String name = " ";
+  String email = " ";
+  String mobileno = " ";
+  String address = " ";
+  String postalcode = " ";
+  String note = " ";
+  String city = " ";
+  String state = " ";
 
   var base;
   @override

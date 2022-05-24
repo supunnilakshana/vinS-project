@@ -51,7 +51,7 @@ class OrderModel {
         payment_type = map["payment_type"],
         postal_code = map["postal_code"],
         user_id = map["user_id"],
-        order_note = map["order_note"],
+        order_note = map["order_note"] ?? "",
         contact_no = map["contact_no"],
-        is_paid = map["is_paid"];
+        is_paid = map["is_paid"] ?? 0;
 }
