@@ -405,6 +405,10 @@ class _UserdetailscreenState extends State<Userdetailscreen> {
     emailcon.text = user.email;
     addresscon.text = user.address;
     mobilecon.text = user.contctno;
+    name = user.name;
+    email = user.email;
+    address = user.address;
+    mobileno = user.contctno;
 
     setState(() {});
   }
