@@ -48,7 +48,7 @@ class _SignupState extends State<Signup> {
   TextEditingController niccontroller = TextEditingController();
   TextEditingController citycontroller = TextEditingController();
   TextEditingController birthdaycontroller = TextEditingController();
-  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   Widget build(BuildContext context) {

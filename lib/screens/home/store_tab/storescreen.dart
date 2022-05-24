@@ -50,115 +50,6 @@ class _StoreScreenState extends State<StoreScreen> {
       child: ListView(
         keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
         children: [
-          Container(
-            child: Column(children: [
-              SizedBox(
-                height: size.height * 0.01,
-              ),
-              Container(
-                width: size.width,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    RoundedInput(
-                      onchange: (text) {
-                        setState(() {
-                          issearch = false;
-                        });
-                        if (text == "") {
-                          setState(() {
-                            issearch = false;
-                          });
-                        }
-                        setState(() {
-                          stext = text;
-                        });
-                        print("Search text -------" + stext);
-                      },
-                      valid: (text) {},
-                      save: (text) {},
-                      hintText: "Search...",
-                      icon: Icons.search_rounded,
-                    ),
-                    Padding(
-                      padding: EdgeInsets.only(left: size.width * 0.03),
-                      child: Container(
-                          decoration: BoxDecoration(
-                              color: kprimarylightcolor,
-                              borderRadius: BorderRadius.all(
-                                  Radius.circular(size.width * 0.05))),
-                          width: size.width * 0.15,
-                          child: Padding(
-                            padding:
-                                EdgeInsets.only(bottom: size.height * 0.008),
-                            child: IconButton(
-                              icon: Icon(
-                                Icons.search_rounded,
-                                color: kprimaryColor,
-                                size: size.width * 0.1,
-                              ),
-                              onPressed: () {
-                                FocusScope.of(context).unfocus();
-                                setState(() {
-                                  if (stext != "") {
-                                    setState(() {
-                                      issearch = true;
-                                    });
-                                  } else {
-                                    setState(() {
-                                      issearch = false;
-                                    });
-                                  }
-                                });
-                              },
-                            ),
-                          )),
-                    )
-                  ],
-                ),
-              ),
-              issearch
-                  ? Padding(
-                      padding: EdgeInsets.only(bottom: size.height * 0.01),
-                      child: Column(
-                        children: [
-                          Padding(
-                            padding: EdgeInsets.only(
-                                bottom: size.height * 0.02,
-                                left: size.width * 0.035),
-                            child: Text(
-                              "Search results...",
-                              style: TextStyle(
-                                  color: Colors.black.withOpacity(0.8),
-                                  fontSize: size.width * 0.04,
-                                  fontWeight: FontWeight.w700),
-                            ),
-                          ),
-                          Sresultview(
-                            searchval: stext,
-                          ),
-                        ],
-                      ))
-                  : SizedBox(height: size.height * 0),
-              Container(
-                decoration: BoxDecoration(color: Colors.white),
-                child: Padding(
-                    padding: EdgeInsets.only(bottom: size.height * 0.018),
-                    child: CachedNetworkImage(
-                      imageUrl:
-                          "https://i.pinimg.com/originals/ce/19/1f/ce191f137fdb797b99a1c2930b61c57c.jpg",
-                      progressIndicatorBuilder:
-                          (context, url, downloadProgress) => Center(
-                        child: CircularProgressIndicator(
-                            color: Colors.blueGrey,
-                            value: downloadProgress.progress),
-                      ),
-                      errorWidget: (context, url, error) =>
-                          const Icon(Icons.error),
-                    )),
-              ),
-            ]),
-          ),
           FutureBuilder(
             future: futureData,
             builder: (context, snapshot) {
@@ -170,119 +61,239 @@ class _StoreScreenState extends State<StoreScreen> {
                     child: Padding(
                   padding: EdgeInsets.only(
                       left: size.width * 0.03, right: size.width * 0.03),
-                  child: Categorymenu(arts: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => CategoryResult(
-                                  categoryName: "Art Items",
-                                  categoryimg: "assets/icons/arts.png",
-                                  productlist: data,
-                                  categoryModel: CategoryModel(
-                                      id: "4",
-                                      category_name: "Art Items",
-                                      image:
-                                          "/Images/default/categories/1.jpeg"),
-                                )));
-                  }, craft: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => CategoryResult(
-                                  categoryName: "Craft Items",
-                                  categoryimg: "assets/icons/craft.png",
-                                  productlist: data,
-                                  categoryModel: CategoryModel(
-                                      id: "5",
-                                      category_name: "Craft Items",
-                                      image:
-                                          "/Images/default/categories/1.jpeg"),
-                                )));
-                  }, leather: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => CategoryResult(
-                                  categoryName: "Leather Items",
-                                  categoryimg: "assets/icons/leather.png",
-                                  productlist: data,
-                                  categoryModel: CategoryModel(
-                                      id: "2",
-                                      category_name: "Leather Items",
-                                      image:
-                                          "/Images/default/categories/1.jpeg"),
-                                )));
-                  }, clothes: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => CategoryResult(
-                                  categoryName: "Clothes",
-                                  categoryimg: "assets/icons/clothes.png",
-                                  productlist: data,
-                                  categoryModel: CategoryModel(
-                                      id: "1",
-                                      category_name: "Clothes",
-                                      image:
-                                          "/Images/default/categories/1.jpeg"),
-                                )));
-                  }, shoes: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => CategoryResult(
-                                  categoryName: "Shoese",
-                                  categoryimg: "assets/icons/shoese.png",
-                                  productlist: data,
-                                  categoryModel: CategoryModel(
-                                      id: "8",
-                                      category_name: "Shoese",
-                                      image:
-                                          "/Images/default/categories/1.jpeg"),
-                                )));
-                  }, fabric: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => CategoryResult(
-                                  categoryName: 'Fabrics',
-                                  categoryimg: "assets/icons/fabric.png",
-                                  productlist: data,
-                                  categoryModel: CategoryModel(
-                                      id: "7",
-                                      category_name: 'Fabrics',
-                                      image:
-                                          "/Images/default/categories/1.jpeg"),
-                                )));
-                  }, crafttool: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => CategoryResult(
-                                  categoryName: 'Craft Tool',
-                                  categoryimg: "assets/icons/crafttool.png",
-                                  productlist: data,
-                                  categoryModel: CategoryModel(
-                                      id: "6",
-                                      category_name: 'Craft Tool',
-                                      image:
-                                          "/Images/default/categories/1.jpeg"),
-                                )));
-                  }, arttool: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => CategoryResult(
-                                  categoryName: 'Art Tool',
-                                  categoryimg: "assets/icons/arttools.png",
-                                  productlist: data,
-                                  categoryModel: CategoryModel(
-                                      id: "3",
-                                      category_name: 'Art Tool',
-                                      image:
-                                          "/Images/default/categories/1.jpeg"),
-                                )));
-                  }),
+                  child: Column(
+                    children: [
+                      Container(
+                        child: Column(children: [
+                          SizedBox(
+                            height: size.height * 0.01,
+                          ),
+                          Container(
+                            width: size.width,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                RoundedInput(
+                                  onchange: (text) {
+                                    setState(() {
+                                      issearch = false;
+                                    });
+                                    if (text == "") {
+                                      setState(() {
+                                        issearch = false;
+                                      });
+                                    }
+                                    setState(() {
+                                      stext = text;
+                                    });
+                                    print("Search text -------" + stext);
+                                  },
+                                  valid: (text) {},
+                                  save: (text) {},
+                                  hintText: "Search...",
+                                  icon: Icons.search_rounded,
+                                ),
+                                Padding(
+                                  padding:
+                                      EdgeInsets.only(left: size.width * 0.03),
+                                  child: Container(
+                                      decoration: BoxDecoration(
+                                          color: kprimarylightcolor,
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(
+                                                  size.width * 0.05))),
+                                      width: size.width * 0.15,
+                                      child: Padding(
+                                        padding: EdgeInsets.only(
+                                            bottom: size.height * 0.008),
+                                        child: IconButton(
+                                          icon: Icon(
+                                            Icons.search_rounded,
+                                            color: kprimaryColor,
+                                            size: size.width * 0.1,
+                                          ),
+                                          onPressed: () {
+                                            FocusScope.of(context).unfocus();
+                                            setState(() {
+                                              if (stext != "") {
+                                                setState(() {
+                                                  issearch = true;
+                                                });
+                                              } else {
+                                                setState(() {
+                                                  issearch = false;
+                                                });
+                                              }
+                                            });
+                                          },
+                                        ),
+                                      )),
+                                )
+                              ],
+                            ),
+                          ),
+                          issearch
+                              ? Padding(
+                                  padding: EdgeInsets.only(
+                                      bottom: size.height * 0.01),
+                                  child: Column(
+                                    children: [
+                                      Padding(
+                                        padding: EdgeInsets.only(
+                                            bottom: size.height * 0.02,
+                                            left: size.width * 0.035),
+                                        child: Text(
+                                          "Search results...",
+                                          style: TextStyle(
+                                              color:
+                                                  Colors.black.withOpacity(0.8),
+                                              fontSize: size.width * 0.04,
+                                              fontWeight: FontWeight.w700),
+                                        ),
+                                      ),
+                                      Sresultview(
+                                        searchval: stext,
+                                        productlist: data,
+                                      ),
+                                    ],
+                                  ))
+                              : SizedBox(height: size.height * 0),
+                          Container(
+                            decoration: BoxDecoration(color: Colors.white),
+                            child: Padding(
+                                padding: EdgeInsets.only(
+                                    bottom: size.height * 0.018),
+                                child: CachedNetworkImage(
+                                  imageUrl:
+                                      "https://i.pinimg.com/originals/ce/19/1f/ce191f137fdb797b99a1c2930b61c57c.jpg",
+                                  progressIndicatorBuilder:
+                                      (context, url, downloadProgress) =>
+                                          Center(
+                                    child: CircularProgressIndicator(
+                                        color: Colors.blueGrey,
+                                        value: downloadProgress.progress),
+                                  ),
+                                  errorWidget: (context, url, error) =>
+                                      const Icon(Icons.error),
+                                )),
+                          ),
+                        ]),
+                      ),
+                      Categorymenu(arts: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => CategoryResult(
+                                      categoryName: "Art Items",
+                                      categoryimg: "assets/icons/arts.png",
+                                      productlist: data,
+                                      categoryModel: CategoryModel(
+                                          id: "4",
+                                          category_name: "Art Items",
+                                          image:
+                                              "/Images/default/categories/1.jpeg"),
+                                    )));
+                      }, craft: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => CategoryResult(
+                                      categoryName: "Craft Items",
+                                      categoryimg: "assets/icons/craft.png",
+                                      productlist: data,
+                                      categoryModel: CategoryModel(
+                                          id: "5",
+                                          category_name: "Craft Items",
+                                          image:
+                                              "/Images/default/categories/1.jpeg"),
+                                    )));
+                      }, leather: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => CategoryResult(
+                                      categoryName: "Leather Items",
+                                      categoryimg: "assets/icons/leather.png",
+                                      productlist: data,
+                                      categoryModel: CategoryModel(
+                                          id: "2",
+                                          category_name: "Leather Items",
+                                          image:
+                                              "/Images/default/categories/1.jpeg"),
+                                    )));
+                      }, clothes: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => CategoryResult(
+                                      categoryName: "Clothes",
+                                      categoryimg: "assets/icons/clothes.png",
+                                      productlist: data,
+                                      categoryModel: CategoryModel(
+                                          id: "1",
+                                          category_name: "Clothes",
+                                          image:
+                                              "/Images/default/categories/1.jpeg"),
+                                    )));
+                      }, shoes: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => CategoryResult(
+                                      categoryName: "Shoese",
+                                      categoryimg: "assets/icons/shoese.png",
+                                      productlist: data,
+                                      categoryModel: CategoryModel(
+                                          id: "8",
+                                          category_name: "Shoese",
+                                          image:
+                                              "/Images/default/categories/1.jpeg"),
+                                    )));
+                      }, fabric: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => CategoryResult(
+                                      categoryName: 'Fabrics',
+                                      categoryimg: "assets/icons/fabric.png",
+                                      productlist: data,
+                                      categoryModel: CategoryModel(
+                                          id: "7",
+                                          category_name: 'Fabrics',
+                                          image:
+                                              "/Images/default/categories/1.jpeg"),
+                                    )));
+                      }, crafttool: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => CategoryResult(
+                                      categoryName: 'Craft Tool',
+                                      categoryimg: "assets/icons/crafttool.png",
+                                      productlist: data,
+                                      categoryModel: CategoryModel(
+                                          id: "6",
+                                          category_name: 'Craft Tool',
+                                          image:
+                                              "/Images/default/categories/1.jpeg"),
+                                    )));
+                      }, arttool: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => CategoryResult(
+                                      categoryName: 'Art Tool',
+                                      categoryimg: "assets/icons/arttools.png",
+                                      productlist: data,
+                                      categoryModel: CategoryModel(
+                                          id: "3",
+                                          category_name: 'Art Tool',
+                                          image:
+                                              "/Images/default/categories/1.jpeg"),
+                                    )));
+                      }),
+                    ],
+                  ),
                 ));
               } else if (snapshot.hasError) {
                 return Errorpage(size: size.width * 0.7);

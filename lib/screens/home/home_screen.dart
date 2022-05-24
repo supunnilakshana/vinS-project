@@ -32,7 +32,7 @@ class _HomeScreenState extends State<HomeScreen> {
       const AccountScreen(),
       const StoreScreen(),
       const CartScreen(),
-      WishListScreen(),
+      const WishListScreen(),
     ];
     return WillPopScope(
       onWillPop: () {
