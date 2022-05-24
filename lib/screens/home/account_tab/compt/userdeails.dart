@@ -36,6 +36,10 @@ class _UserdetailsState extends State<Userdetails> {
   String name = '';
   String email = " ";
   String role = '';
+  String address = " ";
+  String nic = '';
+  String mobileno = '';
+  String birthday = '';
 
   loaduserdata() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -44,6 +48,11 @@ class _UserdetailsState extends State<Userdetails> {
     name = user.name;
     email = user.email;
     role = user.role;
+    address = user.address;
+    birthday = user.birthday;
+    nic = user.nic;
+    mobileno = user.contctno;
+
     setState(() {});
   }
 
@@ -126,7 +135,7 @@ class _UserdetailsState extends State<Userdetails> {
                                                 EditUserdetails(
                                                     uname: name,
                                                     uemail: email,
-                                                    umobile: "07012345678")));
+                                                    umobile: mobileno)));
                                   } else {
                                     Navigator.pushReplacement(
                                         context,
@@ -272,14 +281,14 @@ class _UserdetailsState extends State<Userdetails> {
                                             left: size.width * 0.035),
                                         child: Text.rich(
                                           TextSpan(
-                                            text: 'Mobile No : ',
+                                            text: 'Email : ',
                                             style: TextStyle(
                                                 fontSize: size.width * 0.05,
                                                 fontWeight: FontWeight
                                                     .w800), // default text style
                                             children: <TextSpan>[
                                               TextSpan(
-                                                text: "071-1245631",
+                                                text: email,
                                                 style: TextStyle(
                                                     fontSize: size.width * 0.05,
                                                     fontWeight:
@@ -295,14 +304,83 @@ class _UserdetailsState extends State<Userdetails> {
                                             left: size.width * 0.035),
                                         child: Text.rich(
                                           TextSpan(
-                                            text: 'Email : ',
+                                            text: 'Mobile No : ',
                                             style: TextStyle(
                                                 fontSize: size.width * 0.05,
                                                 fontWeight: FontWeight
                                                     .w800), // default text style
                                             children: <TextSpan>[
                                               TextSpan(
-                                                text: email,
+                                                text: mobileno,
+                                                style: TextStyle(
+                                                    fontSize: size.width * 0.05,
+                                                    fontWeight:
+                                                        FontWeight.normal),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                      Padding(
+                                        padding: EdgeInsets.only(
+                                            bottom: size.height * 0.018,
+                                            left: size.width * 0.035),
+                                        child: Text.rich(
+                                          TextSpan(
+                                            text: 'NIC No : ',
+                                            style: TextStyle(
+                                                fontSize: size.width * 0.05,
+                                                fontWeight: FontWeight
+                                                    .w800), // default text style
+                                            children: <TextSpan>[
+                                              TextSpan(
+                                                text: nic,
+                                                style: TextStyle(
+                                                    fontSize: size.width * 0.05,
+                                                    fontWeight:
+                                                        FontWeight.normal),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                      Padding(
+                                        padding: EdgeInsets.only(
+                                            bottom: size.height * 0.018,
+                                            left: size.width * 0.035),
+                                        child: Text.rich(
+                                          TextSpan(
+                                            text: 'Birthday : ',
+                                            style: TextStyle(
+                                                fontSize: size.width * 0.05,
+                                                fontWeight: FontWeight
+                                                    .w800), // default text style
+                                            children: <TextSpan>[
+                                              TextSpan(
+                                                text: birthday,
+                                                style: TextStyle(
+                                                    fontSize: size.width * 0.05,
+                                                    fontWeight:
+                                                        FontWeight.normal),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                      Padding(
+                                        padding: EdgeInsets.only(
+                                            bottom: size.height * 0.018,
+                                            left: size.width * 0.035),
+                                        child: Text.rich(
+                                          TextSpan(
+                                            text: 'Address : ',
+                                            style: TextStyle(
+                                                fontSize: size.width * 0.05,
+                                                fontWeight: FontWeight
+                                                    .w800), // default text style
+                                            children: <TextSpan>[
+                                              TextSpan(
+                                                text: address,
                                                 style: TextStyle(
                                                     fontSize: size.width * 0.05,
                                                     fontWeight:

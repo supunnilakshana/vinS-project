@@ -9,6 +9,7 @@ class Gtextformfiled extends StatelessWidget {
   final String hintText;
   final IconData icon;
 
+  final int maxlines;
   final Function(String) onchange;
   final Function(String?) save;
   final String? Function(String?) valid;
@@ -22,11 +23,13 @@ class Gtextformfiled extends StatelessWidget {
     required this.controller,
     this.label = "Textfiled",
     this.keybordtype = TextInputType.text,
+    this.maxlines = 1,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      maxLines: maxlines,
       // initialValue: "sdsd",
       keyboardType: keybordtype,
       onChanged: onchange,

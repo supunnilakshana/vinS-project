@@ -28,7 +28,7 @@ class _PayPalScreenState extends State<PayPalScreen> {
 
   @override
   void initState() {
-    title = "Total : " + widget.total.toStringAsFixed(0) + "\$";
+    title = "Total :  RS. " + widget.total.toStringAsFixed(0);
     super.initState();
   }
 

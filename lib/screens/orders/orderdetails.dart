@@ -123,7 +123,7 @@ class _OrderdetailsState extends State<Orderdetails> {
               padding: EdgeInsets.only(
                   left: size.width * 0.04, top: size.height * 0.02),
               child: Text(
-                "Total " + total.toStringAsFixed(0) + "\$",
+                "Total  RS. "+ total.toStringAsFixed(0) ,
                 style: TextStyle(
                     color: Colors.black.withOpacity(0.8),
                     fontSize: size.width * 0.043,
@@ -149,8 +149,7 @@ class _OrderdetailsState extends State<Orderdetails> {
         )),
         DataCell(
           Text(
-            element.product.price.toStringAsFixed(0) +
-                "\$" +
+           "RS. "+ element.product.price.toStringAsFixed(0) +
                 " X " +
                 element.qty.toString(),
             style: TextStyle(

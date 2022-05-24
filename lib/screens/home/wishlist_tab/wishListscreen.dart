@@ -113,11 +113,11 @@ class _WishListScreenState extends State<WishListScreen> {
                                       ),
                                       subtitle: Row(children: [
                                         Text(
-                                            data[indext]
+                                            "RS. " +
+                                                data[indext]
                                                     .product
                                                     .price
-                                                    .toStringAsFixed(0) +
-                                                "\$",
+                                                    .toStringAsFixed(0),
                                             style: TextStyle(
                                                 color: Colors.black
                                                     .withOpacity(0.7))),

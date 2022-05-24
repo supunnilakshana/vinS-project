@@ -1,12 +1,14 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:vinsartisanmarket/components/internet_not_connect.dart';
 import 'package:vinsartisanmarket/components/textfileds.dart';
 import 'package:vinsartisanmarket/components/tots.dart';
 import 'package:vinsartisanmarket/constansts/ui_constansts.dart';
 import 'package:vinsartisanmarket/models/fetchCartModel.dart';
+import 'package:vinsartisanmarket/models/loggedUser.dart';
 import 'package:vinsartisanmarket/models/orderModel.dart';
 import 'package:vinsartisanmarket/screens/home/home_screen.dart';
 import 'package:vinsartisanmarket/screens/orders/payPalscreen.dart';
@@ -57,7 +59,7 @@ class _UserdetailscreenState extends State<Userdetailscreen> {
   @override
   void initState() {
     super.initState();
-
+    loaduserdata();
     setState(() {});
   }
 
@@ -393,5 +395,17 @@ class _UserdetailscreenState extends State<Userdetailscreen> {
         ),
       ),
     );
+  }
+
+  loaduserdata() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    LoggedUserModel user;
+    user = LoggedUserModel.fromMap(jsonDecode(prefs.getString('user') ?? '{}'));
+    namecon.text = user.name;
+    emailcon.text = user.email;
+    addresscon.text = user.address;
+    mobilecon.text = user.contctno;
+
+    setState(() {});
   }
 }

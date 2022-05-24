@@ -31,18 +31,23 @@ class Signup extends StatefulWidget {
 class _SignupState extends State<Signup> {
   bool status = false;
   String name = "";
-  String scondname = "";
+  String address = "";
   String mobileno = "";
   String email = "";
   String password = "";
+  String city = "";
+  String nic = "";
+  String bday = "";
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   TextEditingController namecontroller = TextEditingController();
-  TextEditingController scondnamecontroller = TextEditingController();
+  TextEditingController addresscontroller = TextEditingController();
   TextEditingController mobilenicontroller = TextEditingController();
   TextEditingController passwordcontroller = TextEditingController();
   TextEditingController emailcontroller = TextEditingController();
-
+  TextEditingController niccontroller = TextEditingController();
+  TextEditingController citycontroller = TextEditingController();
+  TextEditingController birthdaycontroller = TextEditingController();
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
 
   @override
@@ -60,15 +65,18 @@ class _SignupState extends State<Signup> {
               child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
-                    Text(
-                      "Register with VinS",
-                      style: TextStyle(
-                          fontSize: size.width * 0.068,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.indigo),
+                    Padding(
+                      padding: EdgeInsets.only(top: size.height * 0.02),
+                      child: Text(
+                        "Register with VinS",
+                        style: TextStyle(
+                            fontSize: size.width * 0.068,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.indigo),
+                      ),
                     ),
                     SizedBox(
-                      height: size.height * 0.1,
+                      height: size.height * 0.047,
                     ),
                     Padding(
                       padding: EdgeInsets.only(bottom: size.height * 0.02),
@@ -97,6 +105,27 @@ class _SignupState extends State<Signup> {
                       child: Container(
                         width: size.width * 0.8,
                         child: Gtextformfiled(
+                          hintText: "Email ",
+                          label: "Email ",
+                          onchange: (text) {
+                            email = text;
+                          },
+                          save: (text) {
+                            email = text!;
+                          },
+                          controller: emailcontroller,
+                          icon: Icons.mail,
+                          valid: (text) {
+                            return Validater.vaildemail(email);
+                          },
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.only(bottom: size.height * 0.02),
+                      child: Container(
+                        width: size.width * 0.8,
+                        child: Gtextformfiled(
                           keybordtype: TextInputType.phone,
                           hintText: "Mobile No",
                           label: "Mobile No",
@@ -119,18 +148,19 @@ class _SignupState extends State<Signup> {
                       child: Container(
                         width: size.width * 0.8,
                         child: Gtextformfiled(
-                          hintText: "Email ",
-                          label: "Email ",
+                          keybordtype: TextInputType.text,
+                          hintText: "NIC No",
+                          label: "NIC No",
                           onchange: (text) {
-                            email = text;
+                            nic = text;
                           },
                           save: (text) {
-                            email = text!;
+                            nic = text!;
                           },
-                          controller: emailcontroller,
-                          icon: Icons.mail,
+                          controller: niccontroller,
+                          icon: Icons.sim_card,
                           valid: (text) {
-                            return Validater.vaildemail(email);
+                            return Validater.genaralvalid(text!);
                           },
                         ),
                       ),
@@ -148,6 +178,52 @@ class _SignupState extends State<Signup> {
                               },
                               icon: Icons.lock,
                             ))),
+                    Padding(
+                      padding: EdgeInsets.only(bottom: size.height * 0.02),
+                      child: Container(
+                        width: size.width * 0.8,
+                        child: Gtextformfiled(
+                          keybordtype: TextInputType.number,
+                          hintText: "Birthday",
+                          label: "Birthday",
+                          onchange: (text) {
+                            bday = text;
+                          },
+                          save: (text) {
+                            bday = text!;
+                          },
+                          controller: birthdaycontroller,
+                          icon: Icons.date_range_outlined,
+                          valid: (text) {
+                            return Validater.genaralvalid(text!);
+                          },
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.only(bottom: size.height * 0.02),
+                      child: Container(
+                        width: size.width * 0.8,
+                        child: Gtextformfiled(
+                          keybordtype: TextInputType.text,
+                          hintText: "Address",
+                          label: "Address",
+                          maxlines: 2,
+                          onchange: (text) {
+                            address = text;
+                          },
+                          save: (text) {
+                            address = text!;
+                          },
+                          controller: addresscontroller,
+                          icon: Icons.location_on,
+                          valid: (text) {
+                            return Validater.genaralvalid(text!);
+                          },
+                        ),
+                      ),
+                    ),
+
                     status
                         ? Padding(
                             padding: EdgeInsets.only(
@@ -245,7 +321,15 @@ class _SignupState extends State<Signup> {
         email: emailcontroller.text,
         password: password,
         conpassword: password,
-        role: 'buyer');
+        role: 'buyer',
+        birthday: bday,
+        city: ' ',
+        address: address,
+        contctno: mobileno,
+        nic: nic);
+    if (kDebugMode) {
+      print(userModel.toMap());
+    }
     Map res = await httpClient.signUp(userModel);
 
     if (kDebugMode) {

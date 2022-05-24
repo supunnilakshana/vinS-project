@@ -151,19 +151,22 @@ class _CartScreenState extends State<CartScreen> {
                                               fontSize: size.width * 0.037),
                                         ),
                                         subtitle: Row(children: [
-                                          Text(
-                                              data[indext]
-                                                      .product
-                                                      .price
-                                                      .toStringAsFixed(0) +
-                                                  "\$",
-                                              style: TextStyle(
-                                                  color: Colors.black
-                                                      .withOpacity(0.7))),
+                                          Expanded(
+                                            child: Text(
+                                                "RS. " +
+                                                    data[indext]
+                                                        .product
+                                                        .price
+                                                        .toStringAsFixed(0),
+                                                overflow: TextOverflow.ellipsis,
+                                                style: TextStyle(
+                                                    color: Colors.black
+                                                        .withOpacity(0.7))),
+                                          ),
                                           Row(
                                             children: [
                                               SizedBox(
-                                                width: size.width * 0.06,
+                                                width: size.width * 0.02,
                                               ),
                                               Text("Quantity  ",
                                                   style: TextStyle(

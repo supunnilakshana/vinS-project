@@ -172,7 +172,7 @@ class _SingelitemfullState extends State<Singelitemfull> {
                   child: Row(children: [
                     Expanded(
                       child: Text(
-                        widget.price.toStringAsFixed(0) + "\$",
+                        "RS. " + widget.price.toStringAsFixed(0),
                         style: TextStyle(
                             color: Colors.redAccent,
                             fontWeight: FontWeight.bold,

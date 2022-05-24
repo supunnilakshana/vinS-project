@@ -1,4 +1,4 @@
-package com.vinu.artisan.market.vinsartisanmarket
+package com.vins.vinsmobile
 
 import io.flutter.embedding.android.FlutterActivity
 

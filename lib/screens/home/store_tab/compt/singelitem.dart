@@ -88,7 +88,7 @@ class _SingleItemState extends State<SingleItem> {
           ),
           Row(mainAxisAlignment: MainAxisAlignment.center, children: [
             Text(
-              widget.price.toStringAsFixed(0) + "\$",
+              "RS. " + widget.price.toStringAsFixed(0),
               style: TextStyle(
                   color: Colors.redAccent, fontWeight: FontWeight.bold),
             ),
@@ -96,7 +96,7 @@ class _SingleItemState extends State<SingleItem> {
               width: size.width * 0.01,
             ),
             isdiscount
-                ? Text(widget.preprice.toStringAsFixed(0) + "\$",
+                ? Text("RS. " + widget.preprice.toStringAsFixed(0),
                     style: TextStyle(
                         color: Colors.black54,
                         fontWeight: FontWeight.bold,
